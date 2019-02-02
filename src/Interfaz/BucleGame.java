@@ -89,9 +89,10 @@ public class BucleGame extends AnimationTimer {
             Nivel();
             if(!nivel.equals("menu")){
                 level.changeUbicacion();
+                lapiz.fillRect(level.getGamer().getX()+25, level.getGamer().getY()+66,level.getGamer().getLarge()-52, level.getGamer().getHigh()/2+5);
                 Player();
                 Interfaz();
-                lapiz.fillRect(level.getGamer().getX()+level.getGamer().getLarge()/16.0+16, level.getGamer().getY()+66,50, 10);
+                
             }
             Animation();
             
@@ -191,6 +192,32 @@ public class BucleGame extends AnimationTimer {
                     lapiz.drawImage(level.getEnemigos().get(i).getMinionImage(), level.getEnemigos().get(i).getMinionImVal(1)+(level.getEnemigos().get(i).getMinionImVal(3)*level.getEnemigos().get(i).getMinionImVal(5)), level.getEnemigos().get(i).getMinionImVal(2),level.getEnemigos().get(i).getMinionImVal(3), level.getEnemigos().get(i).getMinionImVal(4), level.getrefX()+ level.getEnemigos().get(i).getMiniVal(1),level.getrefY()-level.getEnemigos().get(i).getMiniVal(2), level.getEnemigos().get(i).getMiniVal(3), level.getEnemigos().get(i).getMiniVal(4));
                     level.getEnemigos().get(i).desplazar();
                     level.getEnemigos().get(i).movY();
+                    Shape inter;
+                    System.out.println(level.getEnemigos().get(i).getHurt());
+                    if(level.getEnemigos().get(i).getType().equals("topo")){
+                        System.out.println("ahh");
+                        inter =SVGPath.intersect(level.getGamer().downColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
+                        if(inter.getBoundsInLocal().getWidth() != -1){
+                            System.out.println("dhhh");
+                            level.getEnemigos().get(i).hurt(10);
+                        }else{
+                            System.out.println("ehhh");
+                            inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
+                            if(inter.getBoundsInLocal().getWidth() != -1){
+                                System.out.println("chhh");
+                                level.getGamer().setHurt(level.getEnemigos().get(i).getHurt());
+                            }
+                        }
+                            
+                    }else{
+                        System.out.println("bhhh");
+                        inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
+                        if(inter.getBoundsInLocal().getWidth() != -1){
+                            System.out.println("chhh");
+                            level.getGamer().setHurt(level.getEnemigos().get(i).getHurt());
+                        }
+                    }
+                    
                 }
             break;
         }

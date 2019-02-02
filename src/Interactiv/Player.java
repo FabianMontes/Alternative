@@ -32,28 +32,9 @@ public class Player extends PerMov{
     private int trajesDesbloq;
     private int invultime;
 
-    public Player(String Savegame, String pose2, int anim, String look, String look2, String power, HashMap<String, Integer> unlockedPowers, int trajesDesbloq, int invultime, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high) throws IOException {
-        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high,10);
-        visPlayer= new HashMap<>();
-        this.unlockedPowers=LectoEscritura.getPowers(new File(Savegame),"powers");
-        this.visPlayer = visPlayer;
-        this.traje = traje;
-        this.pose = pose;
-        this.pose2 = pose2;
-        this.anim = anim;
-        this.look = look;
-        this.look2 = look2;
-        this.power = power;
-        this.unlockedPowers = unlockedPowers;
-        this.trajesDesbloq = trajesDesbloq;
-        this.invultime = invultime;
-    }
-    
-    
-    
     
     public Player(String Savegame, double x, double y) throws IOException {
-        super(3, 8, 10, false, 100, 350, 100,12,20,30,115,126,10);
+        super(4, 7, 10, false, 100, 350, 100,12,20,30,115,126,10);
         visPlayer= new HashMap<>();
         unlockedPowers=LectoEscritura.getPowers(new File(Savegame),"powers");
         trajesDesbloq=cantPowers(unlockedPowers);
@@ -63,6 +44,7 @@ public class Player extends PerMov{
         power=traje="default";
         visPlayer= LectoEscritura.PartesEnImagen("src/code/PlayerImage.txt", visPlayer);
         anim=0;
+        invultime=20;
     }
 
     public Image getvisPlayerImage(){
@@ -157,16 +139,17 @@ public class Player extends PerMov{
     public Shape personColid(){
         if(look.equals("R")){
             if(pose.contains("crouch")&&!traje.contains("terra")){
-                return new Rectangle(getX()+25, getY()+66, getLarge()-52, getHigh()/2+5);
+                return new Rectangle(getX()+30, getY()+66,getLarge()-75, getHigh()/2-5);
             }else{
-                return new Rectangle(getX()+25, getY()+7, getLarge()-52, getHigh());
+                return new Rectangle(getX()+27, getY()+5,getLarge()-75, getHigh()-5);
             }
         }else{
-            if(pose.contains("crouch")&&!traje.contains("terra")){
-                return new Rectangle(getX()+41, getY()+66, getLarge()-35, 50);
+            if(getPose().contains("crouch")&&!getTraje().contains("terra")){
+                return new Rectangle(getX()+45, getY()+66,getLarge()-75, getHigh()/2-5);
             }else{
-                return new Rectangle(getX()+41, getY()+7, getLarge()-35, 110);
+                return new Rectangle(getX()+45, getY()+5,getLarge()-75, getHigh()-5);
             }
+
         }
     }
     
@@ -322,7 +305,7 @@ public class Player extends PerMov{
     }
     
     public void setHurt(int daño){
-        if(invultime>=20){
+        if(invultime>=100){
             loselife(daño);
             invultime=0;
         }

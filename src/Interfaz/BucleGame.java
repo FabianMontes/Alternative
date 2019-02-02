@@ -88,10 +88,10 @@ public class BucleGame extends AnimationTimer {
             Fondo();
             Nivel();
             if(!nivel.equals("menu")){
-                Colids();
                 level.changeUbicacion();
                 Player();
                 Interfaz();
+                lapiz.fillRect(level.getGamer().getX()+level.getGamer().getLarge()/16.0+16, level.getGamer().getY()+66,50, 10);
             }
             Animation();
             
@@ -130,9 +130,61 @@ public class BucleGame extends AnimationTimer {
                 
             break;            
             default:
+                boolean tratra=false;
+                boolean up =true;
                 for(int i=0;i<level.getPartes().size();i++){
                     for(int j=0;j<level.getPartes().get(i).size();j++){
                         lapiz.drawImage(this.level.getImagens().get("parts").getUbicacion(), this.level.getImagens().get("parts").getPart(level.getPartes().get(i).getGroup(), 1), this.level.getImagens().get("parts").getPart(level.getPartes().get(i).getGroup(), 2), this.level.getImagens().get("parts").getPart(level.getPartes().get(i).getGroup(), 3), this.level.getImagens().get("parts").getPart(level.getPartes().get(i).getGroup(), 4), level.getrefX()+level.getPartes().get(i).getGroupX(j), level.getrefY()-level.getPartes().get(i).getGroupY(j), this.level.getPartes().get(i).getGroupLarge(j), this.level.getPartes().get(i).getGroupAncho(j));
+                        
+                        Shape Obs= new Rectangle(level.getrefX()+level.getPartes().get(i).getGroupX(j),level.getrefY()-level.getPartes().get(i).getGroupY(j),level.getPartes().get(i).getGroupLarge(j),level.getPartes().get(i).getGroupAncho(j));
+                        
+                        Shape intersection = SVGPath.intersect(level.getGamer().leftColid(), Obs);
+                        
+                        if(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1){
+                            level.getBotons().replace("Left", Boolean.FALSE);
+                            up=false;
+                        }else if(intersection.getBoundsInLocal().getWidth() != -1){
+                            do{
+                            level.getGamer().setX(level.getGamer().getX()+1);
+                            level.getBotons().replace("Left", Boolean.FALSE);
+                            intersection = SVGPath.intersect(level.getGamer().leftColid(), Obs);
+                            }while(!(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1));
+                            up=false;
+                        }   
+
+                        intersection = SVGPath.intersect(level.getGamer().rightColid(), Obs);
+
+                        if(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1){
+                            level.getBotons().replace("Right", Boolean.FALSE);
+                            up=false;
+                        }else if(intersection.getBoundsInLocal().getWidth() != -1){
+                            do{
+                            level.getGamer().setX(level.getGamer().getX()-1);
+                            level.getBotons().replace("Right", Boolean.FALSE);
+                            intersection = SVGPath.intersect(level.getGamer().rightColid(), Obs);
+                            }while(!(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1));
+                            up=false;
+                        }
+                
+                        intersection = SVGPath.intersect(this.level.getGamer().downColid(), Obs);
+                        if (intersection.getBoundsInLocal().getHeight() <= 1&& intersection.getBoundsInLocal().getHeight() != -1) {
+                            this.level.getGamer().getFisicas().setGround(true);
+                            this.level.getGamer().getFisicas().setJumping(false);
+                            tratra=true;
+                        }else if(intersection.getBoundsInLocal().getHeight() != -1 && up){
+                            this.level.getGamer().setY(level.getrefY()-level.getPartes().get(i).getGroupY(j)-level.getGamer().getHigh());
+                            this.level.getGamer().getFisicas().setGround(true);
+                            this.level.getGamer().getFisicas().setJumping(false);
+                            tratra=true;
+                        }else{
+                            this.level.getGamer().getFisicas().setGround(tratra);
+                        }
+
+                        intersection = SVGPath.intersect(level.getGamer().upColid(), Obs);
+
+                        if(intersection.getBoundsInLocal().getWidth() != -1){
+                            this.level.getGamer().getFisicas().setJumping(false);
+                        }
                     }
                 }
                 for (int i = 0; i < level.getEnemigos().size(); i++) {
@@ -166,70 +218,7 @@ public class BucleGame extends AnimationTimer {
  
     }
     
-    private void Colids(){
-        boolean tratra=false;
-        boolean up =true;
-        for(int i = 0; i < level.getPartes().size(); i++) {
-            for (int j = 0; j < level.getPartes().get(i).size(); j++) {
-                Shape Obs= new Rectangle(level.getrefX()+level.getPartes().get(i).getGroupX(j),level.getrefY()-level.getPartes().get(i).getGroupY(j),level.getPartes().get(i).getGroupLarge(j),level.getPartes().get(i).getGroupAncho(j));
-                
-                Shape intersection = SVGPath.intersect(level.getGamer().leftColid(), Obs);
-                if(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1){
-                    level.getBotons().replace("Left", Boolean.FALSE);
-                    up=false;
-                }else if(intersection.getBoundsInLocal().getWidth() != -1){
-                    do{
-                    level.getGamer().setX(level.getGamer().getX()+1);
-                    level.getBotons().replace("Left", Boolean.FALSE);
-                    intersection = SVGPath.intersect(level.getGamer().leftColid(), Obs);
-                    }while(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1);
-                    up=false;
-                }   
-                
-                intersection = SVGPath.intersect(level.getGamer().rightColid(), Obs);
-
-                if(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1){
-                    level.getBotons().replace("Right", Boolean.FALSE);
-                    up=false;
-                }else if(intersection.getBoundsInLocal().getWidth() != -1){
-                    do{
-                    level.getGamer().setX(level.getGamer().getX()-1);
-                    level.getBotons().replace("Right", Boolean.FALSE);
-                    intersection = SVGPath.intersect(level.getGamer().rightColid(), Obs);
-                    }while(intersection.getBoundsInLocal().getWidth() != -1 && intersection.getBoundsInLocal().getWidth() <= 1);
-                    up=false;
-                }
-                
-                intersection = SVGPath.intersect(this.level.getGamer().downColid(), Obs);
-                if (intersection.getBoundsInLocal().getHeight() <= 1&& intersection.getBoundsInLocal().getHeight() != -1) {
-                    this.level.getGamer().getFisicas().setGround(true);
-                    this.level.getGamer().getFisicas().setJumping(false);
-                    tratra=true;
-                }else if(intersection.getBoundsInLocal().getHeight() != -1 && up){
-                    this.level.getGamer().setY(level.getrefY()-level.getPartes().get(i).getGroupY(j)-level.getGamer().getHigh());
-                    this.level.getGamer().getFisicas().setGround(true);
-                    this.level.getGamer().getFisicas().setJumping(false);
-                    tratra=true;
-                }else{
-                    this.level.getGamer().getFisicas().setGround(tratra);
-                }
-                
-                
-
-                intersection = SVGPath.intersect(level.getGamer().upColid(), Obs);
-                
-                if(intersection.getBoundsInLocal().getWidth() != -1){
-                    this.level.getGamer().getFisicas().setJumping(false);
-                }
-
-                
-            }
-                
-                
-            
-        }               
-        
-    }
+    
     
     private void Interfaz(){
         lapiz.scale(10, 10);

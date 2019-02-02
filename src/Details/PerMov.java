@@ -16,10 +16,11 @@ public class PerMov {
     protected double[] cord= new double[6];
     protected double timeJump;
     protected double timeFalling;
+    protected int damage;
     
 
-    public PerMov(double velmaxX,  double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW,double velmaxYinW,int time2, double large, double high) {
-        this.fisicas = new Fisica(velmaxX, velmaxY, time, velmaxXinW, velmaxYinW, time2, 0.5,0.2);
+    public PerMov(double velmaxX,  double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW,double velmaxYinW,int time2, double large, double high, int damage) {
+        this.fisicas = new Fisica(velmaxX, velmaxY, time, velmaxXinW, velmaxYinW, time2, 0.3,0.1);
         this.lookingLeft = lookLeft;
         this.live = new Live(live);
         this.cord[0]= Xref;
@@ -28,6 +29,7 @@ public class PerMov {
         this.cord[3]= Yref;
         this.cord[4]= large;
         this.cord[5]= high;
+        this.damage =damage;
     }
 
     public Fisica getFisicas() {
@@ -165,6 +167,14 @@ public class PerMov {
 
     public void setTimeFalling(double timeFalling) {
         this.timeFalling = timeFalling;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
     
     

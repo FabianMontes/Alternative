@@ -96,11 +96,8 @@ public class LectoEscritura {
                 BufferedReader Flee= new BufferedReader(new FileReader(Ffichero));
                 String Slinea;
                 while((Slinea=Flee.readLine())!=null&&!Slinea.equals("F"+Key)) {
-                    System.out.println(Slinea);
                     if(c){
-                        System.out.println("ahhh");
                         String type=Flee.readLine();
-                        System.out.println(type);
                         int cant=Integer.parseInt(Flee.readLine());
                         for (int i = 0; i < cant; i++) {
                             double x= Double.parseDouble(Flee.readLine());
@@ -113,11 +110,9 @@ public class LectoEscritura {
                             double maxY= Double.parseDouble(Flee.readLine());
                             switch(type){
                                 case "scorpio":
-                                    System.out.println(type);
                                     minions.add(new Scorpio(x, y, large, ancho, minX,maxX,minY, maxY));
                                 break;
                                 case "topo":
-                                    System.out.println(type);
                                     minions.add(new Topo(x, y, large, ancho, minX,maxX,minY, maxY));
                                 break;
                             }
@@ -125,7 +120,6 @@ public class LectoEscritura {
                         }
                     }
                     if(Slinea.equals(Key)){
-                        System.out.println("bhhhhh");
                         c=true;
                     }         
                 }

@@ -5,7 +5,6 @@
  */
 package Interactiv;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -23,14 +22,14 @@ public class Enemie extends PerMov{
     private EnemiesCord minion; 
     private HashMap<String,Visual> visEnemies;
 
-    public Enemie(String type, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high, double minX, double minY, double maxX, double maxY) throws IOException {
-        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high);
+    public Enemie(String type, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high, double minX, double minY, double maxX, double maxY, int damage) throws IOException {
+        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high,damage);
         this.type = type;
         this.minion= new EnemiesCord(type, Xref, Yref, minX, maxX, minY, maxY);
         this.visEnemies= LectoEscritura.PartesEnImagen("src/code/Enemigos.txt", new HashMap<>());
     }
 
-    public void hurt(int x,int damage){
+    public void hurt(int damage){
         loselife(damage);
     }
     

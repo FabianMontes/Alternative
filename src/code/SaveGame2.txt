@@ -1,0 +1,12 @@
+powers
+default
+2
+terra
+2
+aero
+2
+aqua
+2
+pyro
+0
+Fpowers

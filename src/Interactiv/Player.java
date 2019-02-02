@@ -33,7 +33,7 @@ public class Player extends PerMov{
     private int invultime;
 
     public Player(String Savegame, String pose2, int anim, String look, String look2, String power, HashMap<String, Integer> unlockedPowers, int trajesDesbloq, int invultime, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high) throws IOException {
-        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high);
+        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high,10);
         visPlayer= new HashMap<>();
         this.unlockedPowers=LectoEscritura.getPowers(new File(Savegame),"powers");
         this.visPlayer = visPlayer;
@@ -53,7 +53,7 @@ public class Player extends PerMov{
     
     
     public Player(String Savegame, double x, double y) throws IOException {
-        super(3, 8, 10, false, 100, 350, 100,12,20,30,115,126);
+        super(3, 8, 10, false, 100, 350, 100,12,20,30,115,126,10);
         visPlayer= new HashMap<>();
         unlockedPowers=LectoEscritura.getPowers(new File(Savegame),"powers");
         trajesDesbloq=cantPowers(unlockedPowers);
@@ -100,9 +100,9 @@ public class Player extends PerMov{
     public Shape upColid(){
         if(look.equals("R")){
             if(pose.contains("crouch")&&!traje.contains("terra")){
-                return new Rectangle(getX()+getLarge()/16.0+26, getY()+66,50, 10);
+                return new Rectangle(getX()+getLarge()/16.0+16, getY()+66,40, 10);
             }else{
-                return new Rectangle(getX()+getLarge()/16.0+26, getY(), 50, 10);
+                return new Rectangle(getX()+getLarge()/16.0+16, getY(), 40, 10);
             }
         }else{
             if(pose.contains("crouch")&&!traje.contains("terra")){

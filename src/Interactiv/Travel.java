@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import Details.LectoEscritura;
 import Details.UbiGroup;
 import Details.Visual;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 /**
  *
  * @author fanat
@@ -23,6 +25,10 @@ public class Travel {
     private String Level;
     private ArrayList<Enemie> Enemigos;
     private HashMap<String,Boolean> botons;
+    private Shape next;
+    private String levelSig;
+    private ArrayList<String> desbloquea;
+    
 
     public Travel(String level, int slote) throws IOException {
         this.Level=level;        
@@ -60,6 +66,14 @@ public class Travel {
         this.Imagens=LectoEscritura.PartesEnImagen("src/code/"+Level+"Ub.txt", Imagens);
         this.Enemigos=LectoEscritura.getEnemie(new File("src/code/"+Level+"lim.txt"), "Enemies");
         ArrayList<String> limts=LectoEscritura.detectKey(new File("src/code/"+Level+"lim.txt"), "Lim");
+        this.desbloquea=LectoEscritura.detectKey(new File("src/code/"+Level+"lim.txt"), "desbloquea");
+        this.levelSig=desbloquea.get(0);
+        desbloquea.remove(0);
+        this.next=new Rectangle(Double.parseDouble(desbloquea.get(0)),Double.parseDouble(desbloquea.get(1)),Double.parseDouble(desbloquea.get(2)),Double.parseDouble(desbloquea.get(3)));
+        desbloquea.remove(3);
+        desbloquea.remove(2);
+        desbloquea.remove(1);
+        desbloquea.remove(0);
         for (int i = 0; i < limts.size(); i++) {
             this.limites.add(Double.parseDouble(limts.get(i)));
         }

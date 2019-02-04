@@ -6,7 +6,6 @@
 package Interfaz;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.shape.*;
 import java.util.ArrayList;
  
@@ -45,7 +44,7 @@ public class BucleGame extends AnimationTimer {
         this.lapiz = lapiz;
         this.escena = escena;
         FondoAnim=0;
-        this.level = new Travel("Level1.0",1);
+        this.level = new Travel("Level1.1",1);
         this.presentacion= new Menu("IniPantalla");  
         this.pulsacionTeclado = new ArrayList<>();
         
@@ -188,31 +187,26 @@ public class BucleGame extends AnimationTimer {
                     }
                 }
                 int i=0;
+                System.out.println(level.getEnemigos().size());
                 while(i<level.getEnemigos().size()){
                     if(level.getEnemigos().get(i).getLive().getLive()<=0){
                         level.getEnemigos().remove(i);
                     }else{
-                        lapiz.fillRect(level.getrefX()+level.getEnemigos().get(i).getMiniVal(1),level.getrefY()-level.getEnemigos().get(i).getMiniVal(2), level.getEnemigos().get(i).getMiniVal(3), level.getEnemigos().get(i).getMiniVal(4));
                         lapiz.drawImage(level.getEnemigos().get(i).getMinionImage(), level.getEnemigos().get(i).getMinionImVal(1)+(level.getEnemigos().get(i).getMinionImVal(3)*level.getEnemigos().get(i).getMinionImVal(5)), level.getEnemigos().get(i).getMinionImVal(2),level.getEnemigos().get(i).getMinionImVal(3), level.getEnemigos().get(i).getMinionImVal(4), level.getrefX()+ level.getEnemigos().get(i).getMiniVal(1),level.getrefY()-level.getEnemigos().get(i).getMiniVal(2), level.getEnemigos().get(i).getMiniVal(3), level.getEnemigos().get(i).getMiniVal(4));
                         Shape inter;
                         if(level.getEnemigos().get(i).getType().equals("topo")){
-                            System.out.println("ahh");
                             inter =SVGPath.intersect(level.getGamer().downColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
                             if(inter.getBoundsInLocal().getWidth() != -1){
-                                System.out.println("dhhh");
                                 level.getEnemigos().get(i).hurt(10);
                             }else{
-                                System.out.println("ehhh");
                                 inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
                                 if(inter.getBoundsInLocal().getWidth() != -1){
-                                    System.out.println("chhh");
                                     level.getGamer().setHurt(level.getEnemigos().get(i).getDamage());
                                 }
                             }
 
                         }else{
                             inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
-                            System.out.println(inter.getBoundsInLocal().getWidth());
                             if(inter.getBoundsInLocal().getWidth() != -1){
                                 level.getGamer().setHurt(level.getEnemigos().get(i).getDamage());
                             }
@@ -222,7 +216,12 @@ public class BucleGame extends AnimationTimer {
                         i++;
                     }
                 }
-                
+                Shape inter = SVGPath.intersect(level.getNext(level.getrefX(),level.getrefY()), level.getGamer().personColid());
+                if(inter.getBoundsInLocal().getWidth() != -1){
+                    System.out.println("change uff");
+                    changeLevel(level.getLevelSig(), 1);
+                    break;
+                }
             break;
         }
     }

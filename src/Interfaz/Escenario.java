@@ -12,11 +12,13 @@ import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 /**
- *
- * @author fanat
+ * La Class Escenario es la clase que contiene el Main y el escenario donde crearemos todo el juego.
+ * @author Fabian Montes.
+ * @version 1.0.0
+ * @since Inicio de los tiempos.
+ * 
  */
 public class Escenario extends Application{
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Pane layout= new Pane();
@@ -25,7 +27,7 @@ public class Escenario extends Application{
         Scene escena= new Scene(layout,1280,650,Color.WHITESMOKE);
         
         GraphicsContext lapiz = canvas.getGraphicsContext2D();
-        BucleGame juego= new BucleGame(escena, lapiz);
+        Loop juego= new Loop(escena, lapiz);
         juego.start();
         
         
@@ -33,7 +35,6 @@ public class Escenario extends Application{
         primaryStage.setTitle("Prueba escenario");
         primaryStage.show();
     }
-    
     public static void main(String[] args) {
         Application.launch(args);
     }

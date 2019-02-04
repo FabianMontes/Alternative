@@ -25,7 +25,10 @@ public class Travel {
     private String Level;
     private ArrayList<Enemie> Enemigos;
     private HashMap<String,Boolean> botons;
-    private Shape next;
+    private double sigX;
+    private double sigY;
+    private double sigL;
+    private double sigA;
     private String levelSig;
     private ArrayList<String> desbloquea;
     
@@ -69,7 +72,11 @@ public class Travel {
         this.desbloquea=LectoEscritura.detectKey(new File("src/code/"+Level+"lim.txt"), "desbloquea");
         this.levelSig=desbloquea.get(0);
         desbloquea.remove(0);
-        this.next=new Rectangle(Double.parseDouble(desbloquea.get(0)),Double.parseDouble(desbloquea.get(1)),Double.parseDouble(desbloquea.get(2)),Double.parseDouble(desbloquea.get(3)));
+        System.out.println(Double.parseDouble(desbloquea.get(0))+" "+Double.parseDouble(desbloquea.get(1))+" "+Double.parseDouble(desbloquea.get(2))+" "+Double.parseDouble(desbloquea.get(3)));
+        sigX=Double.parseDouble(desbloquea.get(0));
+        sigY=Double.parseDouble(desbloquea.get(1));
+        sigL=Double.parseDouble(desbloquea.get(2));
+        sigA=Double.parseDouble(desbloquea.get(3));
         desbloquea.remove(3);
         desbloquea.remove(2);
         desbloquea.remove(1);
@@ -390,5 +397,34 @@ public class Travel {
                 }
         }
     }
+
+    public String getLevelSig() {
+        return levelSig;
+    }
+
+    public ArrayList<String> getDesbloquea() {
+        return desbloquea;
+    }
+
+    public Shape getNext(double refX,double refY) {
+        return new Rectangle(refX+sigX,refY-sigY,sigL,sigA);
+    }
+
+    public void setDesbloquea(ArrayList<String> desbloquea) {
+        this.desbloquea = desbloquea;
+    }
+
+    public void setLevelSig(String levelSig) {
+        this.levelSig = levelSig;
+    }
+
+    public void setNext(double x,double y,double l, double a) {
+        this.sigX=x;
+        this.sigY=y;
+        this.sigL=l;
+        this.sigA=a;
+    }
+    
+    
     
 }

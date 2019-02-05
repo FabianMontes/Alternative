@@ -95,6 +95,23 @@ public class Player extends PerMov{
         }
         
     }
+    
+    public Shape upUPColid(){
+        if(look.equals("R")){
+            if(pose.contains("crouch")&&!traje.contains("terra")){
+                return new Rectangle(getX()+getLarge()/16.0+16, getY()+63,40, 3);
+            }else{
+                return new Rectangle(getX()+getLarge()/16.0+16, getY()-5, 40, 5);
+            }
+        }else{
+            if(pose.contains("crouch")&&!traje.contains("terra")){
+                return new Rectangle(getX()+getLarge()/16.0+42, getY()+63,50, 3);
+            }else{
+                return new Rectangle(getX()+getLarge()/16.0+42, getY()-5, 50, 5);
+            }
+        }
+        
+    }
     public Shape downColid(){
         if(look.equals("R")){
             return new Rectangle(getX()+36, getY()+(getHigh()-2), 34, 3);
@@ -177,12 +194,16 @@ public class Player extends PerMov{
         }else{
             anim=0;
             pose2=pose;
-        }
-        
-            
+        }       
         
     }
 
+    public String getPose2() {
+        return pose2;
+    }
+
+    
+    
     public String getTraje() {
         return traje;
     }

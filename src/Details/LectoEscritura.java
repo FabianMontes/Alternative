@@ -54,7 +54,7 @@ public class LectoEscritura {
             }else{
                 System.out.println("Fichero No Existe");
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             /*Captura un posible error y le imprime en pantalla*/ 
              System.out.println(ex.getMessage());
         }
@@ -81,7 +81,7 @@ public class LectoEscritura {
             }else{
                 System.out.println("Fichero No Existe");
             }
-        } catch (Exception ex) {
+        } catch (IOException | NumberFormatException ex) {
             /*Captura un posible error y le imprime en pantalla*/ 
              System.out.println(ex.getMessage());
         }

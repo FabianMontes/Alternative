@@ -145,8 +145,11 @@ public class Loop extends AnimationTimer {
                         if(intersection.getBoundsInLocal().getWidth() != -1){
                             if(level.getGamer().getPose().contains("crouch")&&!level.getGamer().getTraje().contains("terra")){
                                 level.getBotons().replace("crouch", true);
+                                if(level.getGamer().getTraje().contains("aero")){
+                                    level.getBotons().replace("canMove", false);
+                                }
                             }
-                            level.getBotons().replace("jump", false);
+                            level.getBotons().replace("canJump", false);
                             this.level.getGamer().getFisicas().setJumping(false);
                             move=false;
                         }
@@ -155,6 +158,7 @@ public class Loop extends AnimationTimer {
 
                         if(intersection.getBoundsInLocal().getWidth() != -1){
                             this.level.getGamer().getFisicas().setJumping(false);
+                            move=false;
                         }
                         
                         intersection = SVGPath.intersect(level.getGamer().leftColid(), Obs);
@@ -207,7 +211,6 @@ public class Loop extends AnimationTimer {
                     }
                 }
                 int i=0;
-                System.out.println(level.getEnemigos().size());
                 while(i<level.getEnemigos().size()){
                     if(level.getEnemigos().get(i).getLive().getLive()<=0){
                         level.getEnemigos().remove(i);

@@ -48,12 +48,13 @@ public class Travel {
         this.botons.put("attack", Boolean.FALSE);
         this.botons.put("crouch", Boolean.FALSE);
         this.botons.put("up", Boolean.FALSE);
-        this.botons.put("canJump",false);
+        this.botons.put("canJump",true);
         this.botons.put("isattacking",false);
         this.botons.put("hurt", Boolean.FALSE);
         this.botons.put("totalControl",false);
         this.botons.put("noControl", Boolean.FALSE);
         this.botons.put("onlyMove", Boolean.FALSE);
+        this.botons.put("canMove", true);
         setAll();
     }
     
@@ -72,7 +73,6 @@ public class Travel {
         this.desbloquea=LectoEscritura.detectKey(new File("src/code/"+Level+"lim.txt"), "desbloquea");
         this.levelSig=desbloquea.get(0);
         desbloquea.remove(0);
-        System.out.println(Double.parseDouble(desbloquea.get(0))+" "+Double.parseDouble(desbloquea.get(1))+" "+Double.parseDouble(desbloquea.get(2))+" "+Double.parseDouble(desbloquea.get(3)));
         sigX=Double.parseDouble(desbloquea.get(0));
         sigY=Double.parseDouble(desbloquea.get(1));
         sigL=Double.parseDouble(desbloquea.get(2));
@@ -196,8 +196,6 @@ public class Travel {
     public void setiniPlayerY(double val) {
         limites.set(9, val);
     }
-    
-
     public String getLevel() {
         return Level;
     }
@@ -241,9 +239,10 @@ public class Travel {
     
     public void changeUbicacion(){     
         Gamer.setInvultime(Gamer.getInvultime()+1);
-        if(this.botons.get("jump")){
+        if(this.botons.get("jump")&&this.botons.get("canJump")){
             Gamer.getFisicas().setJumping(true);
         }
+        this.botons.replace("canJump", true);
         
         if((getrefY()==650)&&!(Gamer.getY()<=300)){
             Gamer.movY();
@@ -284,118 +283,123 @@ public class Travel {
             }
         }
         
-        if(this.botons.get("attack")){
-            if(this.botons.get("Right")){
-                Gamer.Look("R");   
-            }else if(this.botons.get("Left")){
-                Gamer.Look("L");
-            }
-            Gamer.setPose("attack");
-        }else if(Gamer.getFisicas().isGround()){
-            if(this.botons.get("Right")){
-                Gamer.Look("R");
-                if(this.botons.get("crouch")&&this.Gamer.getTraje().equals("default")){
-                    Gamer.setPose("Mcrouch");
-                }else{
-                    Gamer.setPose("walk");
+        if(this.botons.get("canMove")){
+            if(this.botons.get("attack")){
+                if(this.botons.get("Right")){
+                    Gamer.Look("R");   
+                }else if(this.botons.get("Left")){
+                    Gamer.Look("L");
                 }
-                if(Gamer.getX()>=700&&getrefmaxX()>1280){
-                    if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
-                        setrefmaxX(1280);
+                Gamer.setPose("attack");
+            }else if(Gamer.getFisicas().isGround()){
+                if(this.botons.get("Right")){
+                    Gamer.Look("R");
+                    if(this.botons.get("crouch")&&this.Gamer.getTraje().equals("default")){
+                        Gamer.setPose("Mcrouch");
                     }else{
-                        difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                        Gamer.setPose("walk");
                     }
-                    setrefX(getrefmaxX()-getrefmaxXini());
-                }else{
-                    Gamer.desplazar();
-                }
-            }else if(this.botons.get("Left")){
-                if(this.botons.get("crouch")&&this.Gamer.getTraje().equals("default")){
-                    Gamer.setPose("Mcrouch");
-                }else{
-                    Gamer.setPose("walk");
-                }
-                Gamer.Look("L");
-                if(Gamer.getX()<=600&&getrefX()<0){
-                    if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
-                        setrefX(0);
+                    if(Gamer.getX()>=700&&getrefmaxX()>1280){
+                        if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
+                            setrefmaxX(1280);
+                        }else{
+                            difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                        }
+                        setrefX(getrefmaxX()-getrefmaxXini());
                     }else{
-                        difrefX(Gamer.getFisicas().getVelmaxX());
+                        Gamer.desplazar();
                     }
-                    setrefmaxX(getrefX()+getrefmaxXini());
+                }else if(this.botons.get("Left")){
+                    if(this.botons.get("crouch")&&this.Gamer.getTraje().equals("default")){
+                        Gamer.setPose("Mcrouch");
+                    }else{
+                        Gamer.setPose("walk");
+                    }
+                    Gamer.Look("L");
+                    if(Gamer.getX()<=600&&getrefX()<0){
+                        if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
+                            setrefX(0);
+                        }else{
+                            difrefX(Gamer.getFisicas().getVelmaxX());
+                        }
+                        setrefmaxX(getrefX()+getrefmaxXini());
+                    }else{
+                        Gamer.desplazar();
+                    }
                 }else{
-                    Gamer.desplazar();
-                }
-            }else{
-                if(botons.get("crouch")){
-                    Gamer.setPose("crouch");
-                }else{
-                    Gamer.setPose("quiet");
-                }
-                
-            } 
+                    if(botons.get("crouch")){
+                        Gamer.setPose("crouch");
+                    }else{
+                        Gamer.setPose("quiet");
+                    }
 
-        }else if(Gamer.getFisicas().isJumping()){
-            if(this.botons.get("Right")){
-                Gamer.Look("R");
-                Gamer.setPose("jump");
-                if(Gamer.getX()>=700&&getrefmaxX()>1280){
-                    if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
-                        setrefmaxX(1280);
-                    }else{
-                        difrefmaxX(-Gamer.getFisicas().getVelmaxX());
-                    }
-                    setrefX(getrefmaxX()-getrefmaxXini());
-                }else{
-                    Gamer.desplazar();
-                }
-            }else if(this.botons.get("Left")){
-                Gamer.Look("L");
-                Gamer.setPose("jump");
-                if(Gamer.getX()<=600&&getrefX()<0){
-                    if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
-                        setrefX(0);
-                    }else{
-                        difrefX(Gamer.getFisicas().getVelmaxX());
-                    }
-                    setrefmaxX(getrefX()+getrefmaxXini());
-                    }else{
-                        Gamer.desplazar();
-                    }
-                }else{
+                } 
+
+            }else if(Gamer.getFisicas().isJumping()){
+                if(this.botons.get("Right")){
+                    Gamer.Look("R");
                     Gamer.setPose("jump");
-                }
-        }else{
-            if(this.botons.get("Right")){
-                Gamer.Look("R");
-                Gamer.setPose("fall");
-                if(Gamer.getX()>=700&&getrefmaxX()>1280){
-                    if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
-                        setrefmaxX(1280);
-                    }else{
-                        difrefmaxX(-Gamer.getFisicas().getVelmaxX());
-                    }
-                    setrefX(getrefmaxX()-getrefmaxXini());
-                }else{
-                    Gamer.desplazar();
-                }
-            }else if(this.botons.get("Left")){
-                Gamer.Look("L");
-                Gamer.setPose("fall");
-                if(Gamer.getX()<=600&&getrefX()<0){
-                    if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
-                        setrefX(0);
-                    }else{
-                        difrefX(Gamer.getFisicas().getVelmaxX());
-                    }
-                    difrefmaxX(getrefX()+getrefmaxXini());
+                    if(Gamer.getX()>=700&&getrefmaxX()>1280){
+                        if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
+                            setrefmaxX(1280);
+                        }else{
+                            difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                        }
+                        setrefX(getrefmaxX()-getrefmaxXini());
                     }else{
                         Gamer.desplazar();
                     }
-                }else{
+                }else if(this.botons.get("Left")){
+                    Gamer.Look("L");
+                    Gamer.setPose("jump");
+                    if(Gamer.getX()<=600&&getrefX()<0){
+                        if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
+                            setrefX(0);
+                        }else{
+                            difrefX(Gamer.getFisicas().getVelmaxX());
+                        }
+                        setrefmaxX(getrefX()+getrefmaxXini());
+                        }else{
+                            Gamer.desplazar();
+                        }
+                    }else{
+                        Gamer.setPose("jump");
+                    }
+            }else{
+                if(this.botons.get("Right")){
+                    Gamer.Look("R");
                     Gamer.setPose("fall");
-                }
+                    if(Gamer.getX()>=700&&getrefmaxX()>1280){
+                        if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
+                            setrefmaxX(1280);
+                        }else{
+                            difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                        }
+                        setrefX(getrefmaxX()-getrefmaxXini());
+                    }else{
+                        Gamer.desplazar();
+                    }
+                }else if(this.botons.get("Left")){
+                    Gamer.Look("L");
+                    Gamer.setPose("fall");
+                    if(Gamer.getX()<=600&&getrefX()<0){
+                        if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
+                            setrefX(0);
+                        }else{
+                            difrefX(Gamer.getFisicas().getVelmaxX());
+                        }
+                        difrefmaxX(getrefX()+getrefmaxXini());
+                        }else{
+                            Gamer.desplazar();
+                        }
+                    }else{
+                        Gamer.setPose("fall");
+                    }
+            }
         }
+        this.botons.replace("canMove", true);
+        
+        
     }
 
     public String getLevelSig() {

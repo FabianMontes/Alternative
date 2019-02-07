@@ -60,33 +60,6 @@ public class LectoEscritura {
         }
         return Keys;
     }
-    public static HashMap<String,Integer> getPowers(File Ffichero,String Key) throws FileNotFoundException, IOException{
-        HashMap<String,Integer> Keys =new HashMap<>();
-        boolean c=false;
-        try {
-            if(Ffichero.exists()){
-                BufferedReader Flee= new BufferedReader(new FileReader(Ffichero));
-                String Slinea;
-                while((Slinea=Flee.readLine())!=null&&!Slinea.equals("F"+Key)) {
-                    int bet = 0;
-                    if(c){
-                        bet= Integer.parseInt(Flee.readLine());
-                        Keys.put(Slinea,bet);
-                    }if(Slinea.equals(Key)){
-                        c=true;
-                    }
-                                  
-                }
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
-            }
-        } catch (IOException | NumberFormatException ex) {
-            /*Captura un posible error y le imprime en pantalla*/ 
-             System.out.println(ex.getMessage());
-        }
-        return Keys;
-    }
     
     public static ArrayList<Enemie> getEnemie(File Ffichero,String Key) throws FileNotFoundException, IOException{
         ArrayList<Enemie> minions =new ArrayList<>();

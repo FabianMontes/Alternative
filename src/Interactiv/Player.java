@@ -364,8 +364,4 @@ public class Player extends PerMov{
     public void setAnim(int anim) {
         this.anim = anim;
     }
-    
-    
-
-     
 }

@@ -31,6 +31,8 @@ public class Player extends PerMov{
     private HashMap<String,Integer> unlockedPowers;
     private int trajesDesbloq;
     private int invultime;
+    private boolean canGrow;
+    
 
     
     public Player(String Savegame, double x, double y) throws IOException {
@@ -45,8 +47,19 @@ public class Player extends PerMov{
         visPlayer= LectoEscritura.PartesEnImagen("src/code/PlayerImage.txt", visPlayer);
         anim=0;
         invultime=20;
+        canGrow=true;
     }
 
+    public boolean isCanGrow() {
+        return canGrow;
+    }
+
+    public void setCanGrow(boolean canGrow) {
+        this.canGrow = canGrow;
+    }
+
+    
+    
     public Image getvisPlayerImage(){
         return visPlayer.get(traje).getUbicacion();
     }
@@ -60,6 +73,8 @@ public class Player extends PerMov{
     public double getVisPlayerLarge() {
         return visPlayer.get(traje).getPart(pose+look, 3);
     }
+    
+    
     
     public double getVisPlayerAncho() {
         return visPlayer.get(traje).getPart(pose+look, 4);
@@ -219,8 +234,16 @@ public class Player extends PerMov{
 
     public void setTraje() {
         if(!traje.equals(power)){
-            this.traje = this.power;
-            anim=0;
+            if(power.equals("terra")){
+                if(canGrow){
+                    this.traje = this.power;
+                    anim=0;
+                }
+            }else{
+                this.traje = this.power;
+                anim=0;
+            }
+            
         }
         
     }

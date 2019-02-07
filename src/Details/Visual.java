@@ -12,9 +12,6 @@ import javafx.scene.image.Image;
  * @author fanat
  */
 public class Visual {
-    /**
-     * 
-     */
     private Image ubicacion;
     private HashMap<String,Cordenate> partes;
     

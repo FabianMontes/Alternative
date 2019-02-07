@@ -13,6 +13,7 @@ import javafx.scene.shape.*;
 import Details.PerMov;
 import Details.LectoEscritura;
 import Details.Visual;
+import java.util.ArrayList;
 
 
 /**
@@ -28,19 +29,17 @@ public class Player extends PerMov{
     private String look;
     private String look2;
     private String power;
-    private HashMap<String,Integer> unlockedPowers;
-    private int trajesDesbloq;
+    private ArrayList<String> unlockedPowers;
     private int invultime;
     private boolean canGrow;
     
 
     
-    public Player(String Savegame, double x, double y) throws IOException {
+    public Player(String level, double x, double y) throws IOException {
         super(4, 7, 10, false, 100, 350, 100,12,20,30,115,126,10);
         visPlayer= new HashMap<>();
-        unlockedPowers=LectoEscritura.getPowers(new File(Savegame),"powers");
-        trajesDesbloq=cantPowers(unlockedPowers);
-        System.out.println(trajesDesbloq);
+        unlockedPowers=LectoEscritura.detectKey(new File("src/code/"+level+"lim.txt"),"powers");
+        System.out.println(unlockedPowers.size());
         look2=look="R";
         pose2=pose="quiet";
         power=traje="default";
@@ -125,8 +124,8 @@ public class Player extends PerMov{
                 return new Rectangle(getX()+getLarge()/16.0+42, getY()-5, 50, 5);
             }
         }
-        
     }
+    
     public Shape downColid(){
         if(look.equals("R")){
             return new Rectangle(getX()+36, getY()+(getHigh()-2), 34, 3);
@@ -185,6 +184,21 @@ public class Player extends PerMov{
         }
     }
     
+    public ArrayList<Shape> damageColid(){
+        ArrayList<Shape> damages =new ArrayList<>();
+        switch(traje){
+            case "terra":
+                if(look.equals("R")){
+                    damages.add(new Rectangle(getX()+27, getY()+5,getLarge()-75, getHigh()-5));
+                }else{
+                    damages.add(new Rectangle());
+                }
+                
+            break;
+        }
+        return damages;
+    }
+    
     public void setAnimation(){
         if(pose.equals("quiet")&&!look2.equals(look)){
             anim=0;
@@ -216,8 +230,6 @@ public class Player extends PerMov{
     public String getPose2() {
         return pose2;
     }
-
-    
     
     public String getTraje() {
         return traje;
@@ -230,7 +242,6 @@ public class Player extends PerMov{
     public String getLook() {
         return look;
     }
-
 
     public void setTraje() {
         if(!traje.equals(power)){
@@ -265,16 +276,14 @@ public class Player extends PerMov{
         }
     }
 
-    public void setUnlockedPowers(HashMap<String,Integer> unlockedPowers) {
-        this.unlockedPowers = unlockedPowers;
-    }
-
     public String getPower() {
         return power;
     }
 
+    
+    
     public void changePower() {
-        switch(trajesDesbloq){
+        switch(unlockedPowers.size()){
             case 1:
                 switch(power){
                     case "default":
@@ -334,18 +343,6 @@ public class Player extends PerMov{
                 }
             break;
         }
-    }
-
-    public HashMap<String, Integer> getUnlockedPowers() {
-        return unlockedPowers;
-    }
-
-    public int getTrajesDesbloq() {
-        return trajesDesbloq;
-    }
-
-    public void setTrajesDesbloq(int trajesDesbloq) {
-        this.trajesDesbloq = trajesDesbloq;
     }
     
     public void setHurt(int daño){

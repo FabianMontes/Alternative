@@ -19,18 +19,16 @@ public class Menu {
     private String name;
     private ArrayList<UbiGroup> Destellos;
     private HashMap<String,Visual> Imagens;
-    private HashMap<String,Integer> powers1;
-    private HashMap<String,Integer> powers2;
-    private HashMap<String,Integer> powers3;
+    private HashMap<Double,String> Codes;
+    private int[] code;
     private int boton;
 
     public Menu(String name) throws IOException {
         this.name=name;
         this.Destellos = new ArrayList<>();
         this.Imagens = new HashMap<>();
-        powers1=new HashMap<>();
-        powers2=new HashMap<>();
-        powers3=new HashMap<>();
+        this.Codes=new HashMap<>();
+        code= new int[5];
         boton=0;
         setAll();
     }
@@ -43,82 +41,119 @@ public class Menu {
         return Imagens;
     }
     
-    public void setMenu(String name) throws IOException{
-        this.name=name;
-        setAll();
-    }
-
     public String getName() {
         return name;
     }
     
-    public void putMenu() throws IOException{
-        name="MenuSave";
-        boton=0;
-        setAll();        
-        powers1=LectoEscritura.getPowers(new File("src/code/SaveGame1.txt"), "powers");
-        powers2=LectoEscritura.getPowers(new File("src/code/SaveGame2.txt"), "powers");
-        powers3=LectoEscritura.getPowers(new File("src/code/SaveGame3.txt"), "powers"); 
-        Destellos.add(new UbiGroup("terra"));
-        Destellos.get(Destellos.size()-1).addGroup(792, 61, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(792, 308, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(792, 538, 64, 64);
-        Destellos.add(new UbiGroup("aero"));
-        Destellos.get(Destellos.size()-1).addGroup(792, 125, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(792, 372, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(792, 602, 64, 64);
-        Destellos.add(new UbiGroup("aqua"));
-        Destellos.get(Destellos.size()-1).addGroup(856, 61, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(856, 308, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(856, 538, 64, 64);
-        Destellos.add(new UbiGroup("pyro"));
-        Destellos.get(Destellos.size()-1).addGroup(856, 125, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(856, 372, 64, 64);
-        Destellos.get(Destellos.size()-1).addGroup(856, 602, 64, 64);
-        
+    public int getBoton() {
+        return boton;
     }
     
-    public String getTipePow(String power, int a) throws IOException{
-        switch(a){
-            case 1:
-                return (power+powers1.get(power));
-            
-            case 2:
-                return (power+powers2.get(power));
-            
-            default:
-                return (power+powers3.get(power));
-                
-        }
+    public int[] getCode() {
+        return code;
+    }
+    
+    public void setCode(int[] code) {
+        this.code = code;
     }
     
     private void setAll() throws IOException{
         Destellos.clear();
         Imagens.clear();
-        this.Destellos=LectoEscritura.UbicarLevel(new File("src/code/"+name+"Vis.txt"), Destellos);
+        Codes.clear();
         this.Imagens=LectoEscritura.PartesEnImagen("src/code/"+name+"Ub.txt", Imagens);
+        this.Destellos=LectoEscritura.UbicarLevel(new File("src/code/"+name+"Vis.txt"), Destellos);
+    }
+   
+    public void setMenu(String name) throws IOException{
+        this.name=name;
+        setAll();
+    }
+
+    public void putMenu(int a) throws IOException{
+        if(a==0){
+            name="MenuSave";
+        }else{
+            name="Pasword";
+        }
+        
+        boton=0;
+        setAll();  
+        if(a!=0){
+            ArrayList<String> trade =LectoEscritura.detectKey(new File("src/code/"+name+"Lim.txt"), "codes");
+            for (int i = 0; i < trade.size(); i=i+2) {
+                double codes=Integer.parseInt(trade.get(i));
+                String level=trade.get(i+1);
+                this.Codes.put(codes, level);
+            }
+            code[0]=0;
+            code[1]=0;
+            code[2]=0;
+            code[3]=0;
+            code[4]=0;
+        }
     }
     
-    public void change(int s){
+    public void changeOne(int s){
         if(s>0){
-            if(boton==2){
+            if(boton==1){
                 boton=0;
             }else{
                 boton++;
             }
         }else{
             if(boton==0){
-                boton=2;
+                boton=1;
             }else{
                 boton--;
             }
         }
-        Destellos.get(0).replaceGroup(0, 150, 70+(247*boton), 128, 128);
+        Destellos.get(0).replaceGroup(0, 406, 442+(100*boton), 62, 56);
+    }
+    
+    public void changeTwo(String s){
+        switch(s){
+            case "up":
+                if(code[boton]==0){
+                    code[boton]=4;
+                }else{
+                    code[boton]--;
+                }
+            break;
+            case "down":
+                if(code[boton]==4){
+                    code[boton]=0;
+                }else{
+                    code[boton]++;
+                }
+            break;
+            case "left":
+                if(boton==0){
+                    boton=4;
+                }else{
+                   boton--;
+                }
+            break;
+            default:
+                if(boton==4){
+                    boton=0;
+                }else{
+                   boton++;
+                }
+            break;
+        }
+        
+        Destellos.get(0).replaceGroup(0, 154+(212*boton), 350, 126, 126);
+    }
+    
+    public boolean canChangeCode(){
+        Double a=code[0]*Math.pow(10, 4)+code[1]*Math.pow(10, 3)+code[2]*Math.pow(10, 2)+code[3]*Math.pow(10, 1)+code[4]*Math.pow(10, 0);
+        return this.Codes.get(a)!=null;
+    }
+    
+    public String changeCode(){
+        Double a=code[0]*Math.pow(10, 4)+code[1]*Math.pow(10, 3)+code[2]*Math.pow(10, 2)+code[3]*Math.pow(10, 1)+code[4]*Math.pow(10, 0);
+        return this.Codes.get(a);
     }
 
-    public int getBoton() {
-        return boton;
-    }
-    
-    
 }

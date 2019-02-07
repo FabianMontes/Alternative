@@ -267,15 +267,20 @@ public class Loop extends AnimationTimer {
 
     private void Animation(){
         if(time>10){
-            if(FondoAnim>=this.presentacion.getImagens().get("fondo").getPart("fondo", 5)){
-                FondoAnim=0;
+            if(time>30){
+                if(FondoAnim>=this.presentacion.getImagens().get("fondo").getPart("fondo", 5)){
+                    FondoAnim=0;
+                }else{
+                    FondoAnim++;
+                }    
+                time=0;
             }else{
-                FondoAnim++;
-            }    
-            time=0;
-            if(!nivel.equals("menu")){
-            this.level.getGamer().setAnimation();
+                if(!nivel.equals("menu")){
+                this.level.getGamer().setAnimation();
+                time=0;
+                }
             }
+            
         }
         
  
@@ -308,23 +313,26 @@ public class Loop extends AnimationTimer {
                 if(presentacion.getName().equals("IniPantalla")){
                     if(pulsacionTeclado.contains("ENTER")){
                     changeLevel();
+                    espboton=0;
                     }
                 }else{
-                    if(pulsacionTeclado.contains("UP")&&espboton>5){
+                    if(pulsacionTeclado.contains("UP")&&espboton>10){
                         presentacion.change(-1);
                         espboton=0;
                     }
-                    if(pulsacionTeclado.contains("DOWN")&&espboton>5){
+                    if(pulsacionTeclado.contains("DOWN")&&espboton>10){
                         presentacion.change(1);
                         espboton=0;
                     }
-                    if(pulsacionTeclado.contains("ENTER")&&espboton>10){
+                    if(pulsacionTeclado.contains("ENTER")&&espboton>20){
                         changeLevel("Level1.0",presentacion.getBoton()+1);
+                        espboton=0;
                     }
-                    if(pulsacionTeclado.contains("X")&&espboton>10){
+                    if(pulsacionTeclado.contains("X")&&espboton>20){
                         System.out.println(presentacion.getBoton());
                         //LectoEscritura.resetLevel(presentacion.getBoton()+1);
                         changeLevel();
+                        espboton=0;
                     }
                     
                 }

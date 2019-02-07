@@ -81,3 +81,8 @@ Level1.1
 50
 650
 Fdesbloquea
+powers
+default
+terra
+aero
+Fpowers

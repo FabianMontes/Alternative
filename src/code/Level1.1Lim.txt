@@ -19,7 +19,7 @@ scorpio
 62
 35
 280
-640
+580
 85
 85
 940
@@ -46,3 +46,10 @@ Level1.0
 50
 650
 Fdesbloquea
+powers
+default
+terra
+aero
+aqua
+pyro
+Fpowers

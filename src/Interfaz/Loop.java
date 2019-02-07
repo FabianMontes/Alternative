@@ -148,6 +148,9 @@ public class Loop extends AnimationTimer {
                                 if(level.getGamer().getTraje().contains("aero")){
                                     level.getBotons().replace("canMove", false);
                                 }
+                                level.getGamer().setCanGrow(false);
+                            }else{
+                                level.getGamer().setCanGrow(true);
                             }
                             level.getBotons().replace("canJump", false);
                             this.level.getGamer().getFisicas().setJumping(false);

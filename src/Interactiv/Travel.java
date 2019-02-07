@@ -33,15 +33,13 @@ public class Travel {
     private ArrayList<String> desbloquea;
     
 
-    public Travel(String level, int slote) throws IOException {
+    public Travel(String level) throws IOException {
         this.Level=level;        
-        Gamer=new Player("src/code/SaveGame"+slote+".txt",0,0);
         this.Partes= new ArrayList<>();
         this.limites= new ArrayList<>();
         this.Imagens=new HashMap<>();
         this.Enemigos=new ArrayList<>();
         this.botons = new HashMap<>();
-        
         this.botons.put("Right", false);
         this.botons.put("Left", Boolean.FALSE);
         this.botons.put("jump", Boolean.FALSE);
@@ -66,6 +64,7 @@ public class Travel {
         this.Imagens.clear();
         this.limites.clear();
         this.Enemigos.clear();
+        Gamer=new Player(Level,0,0);
         this.Partes=LectoEscritura.UbicarLevel(new File("src/code/"+Level+"Vis.txt"), Partes);
         this.Imagens=LectoEscritura.PartesEnImagen("src/code/"+Level+"Ub.txt", Imagens);
         this.Enemigos=LectoEscritura.getEnemie(new File("src/code/"+Level+"lim.txt"), "Enemies");

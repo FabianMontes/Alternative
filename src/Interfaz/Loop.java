@@ -96,14 +96,17 @@ public class Loop extends AnimationTimer {
             Nivel();
             if(!nivel.equals("menu")){
                 level.changeUbicacion();
-                
-                Player();
+                lapiz.fillRect(level.getGamer().getX()+27, level.getGamer().getY()+5,level.getGamer().getLarge()-50, level.getGamer().getHigh()-50);
+                lapiz.drawImage(this.level.getGamer().getvisPlayerImage(), this.level.getGamer().getVisPlayerX(), this.level.getGamer().getVisPlayerY(), this.level.getGamer().getVisPlayerLarge(), this.level.getGamer().getVisPlayerAncho(), this.level.getGamer().getX(), this.level.getGamer().getY(), this.level.getGamer().getLarge(), this.level.getGamer().getHigh());
                 Interfaz();
+                
+                
             }
             Animation();
             
             espboton++;
             time++;
+            
         } catch (IOException ex) {
             Logger.getLogger(Loop.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -120,11 +123,14 @@ public class Loop extends AnimationTimer {
                 lapiz.drawImage(this.presentacion.getImagens().get("fondo").getUbicacion(), this.presentacion.getImagens().get("fondo").getPart("fondo", 1)+(FondoAnim*this.presentacion.getImagens().get("fondo").getPart("fondo", 3)), this.presentacion.getImagens().get("fondo").getPart("fondo", 2), this.presentacion.getImagens().get("fondo").getPart("fondo", 3), this.presentacion.getImagens().get("fondo").getPart("fondo", 4), 0, 0, 1280, 650);
                 if(!presentacion.getName().equals("IniPantalla")){
                     lapiz.drawImage(this.presentacion.getImagens().get("parts").getUbicacion(), (this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 1)+(this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 3)*this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 5))), this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 2), this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 3), this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 4), presentacion.getDestellos().get(0).getGroupX(0), presentacion.getDestellos().get(0).getGroupY(0), presentacion.getDestellos().get(0).getGroupLarge(0), presentacion.getDestellos().get(0).getGroupAncho(0));
+                    System.out.println(presentacion.getDestellos().size());
                     for (int i = 1; i < presentacion.getDestellos().size(); i++) {
-                        for (int j = 1; j < 4; j++) {
-                               lapiz.drawImage(this.presentacion.getImagens().get("parts").getUbicacion(), this.presentacion.getImagens().get("parts").getPart(presentacion.getTipePow(presentacion.getDestellos().get(i).getGroup(),j), 1), this.presentacion.getImagens().get("parts").getPart(presentacion.getTipePow(presentacion.getDestellos().get(i).getGroup(),j), 2), this.presentacion.getImagens().get("parts").getPart(presentacion.getTipePow(presentacion.getDestellos().get(i).getGroup(),j), 3), this.presentacion.getImagens().get("parts").getPart(presentacion.getTipePow(presentacion.getDestellos().get(i).getGroup(),j), 4), presentacion.getDestellos().get(i).getGroupX(j-1), presentacion.getDestellos().get(i).getGroupY(j-1), presentacion.getDestellos().get(i).getGroupLarge(j-1), presentacion.getDestellos().get(i).getGroupAncho(j-1));
-                               
+                        //this.stop();
+                        System.out.println(presentacion.getDestellos().get(i).size());
+                        for (int j = 0; j < presentacion.getDestellos().get(i).size(); j++) {
+                            lapiz.drawImage(this.presentacion.getImagens().get("parts").getUbicacion(), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j],1), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j], 2), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j], 3), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j], 4), presentacion.getDestellos().get(i).getGroupX(j), presentacion.getDestellos().get(i).getGroupY(j), presentacion.getDestellos().get(i).getGroupLarge(j), presentacion.getDestellos().get(i).getGroupAncho(j));
                         }
+                        
                     }
                 }
                 
@@ -133,6 +139,7 @@ public class Loop extends AnimationTimer {
                 boolean tratra=false;
                 boolean up =true;
                 boolean move =true;
+                boolean grow =true;
                 lapiz.drawImage(this.level.getImagens().get("fondo").getUbicacion(), this.level.getImagens().get("fondo").getPart("fondo", 1), this.level.getImagens().get("fondo").getPart("fondo", 2), this.level.getImagens().get("fondo").getPart("fondo", 3), this.level.getImagens().get("fondo").getPart("fondo", 4), 0, 0, 1280, 650);
                 for(int i=0;i<level.getPartes().size();i++){
                     for(int j=0;j<level.getPartes().get(i).size();j++){
@@ -148,15 +155,13 @@ public class Loop extends AnimationTimer {
                                 if(level.getGamer().getTraje().contains("aero")){
                                     level.getBotons().replace("canMove", false);
                                 }
-                                level.getGamer().setCanGrow(false);
-                            }else{
-                                level.getGamer().setCanGrow(true);
+                                grow=false;
                             }
                             level.getBotons().replace("canJump", false);
                             this.level.getGamer().getFisicas().setJumping(false);
                             move=false;
                         }
-                                
+                        level.getGamer().setCanGrow(grow);    
                         intersection = SVGPath.intersect(level.getGamer().upColid(), Obs);
 
                         if(intersection.getBoundsInLocal().getWidth() != -1){
@@ -218,23 +223,31 @@ public class Loop extends AnimationTimer {
                     if(level.getEnemigos().get(i).getLive().getLive()<=0){
                         level.getEnemigos().remove(i);
                     }else{
-                        lapiz.drawImage(level.getEnemigos().get(i).getMinionImage(), level.getEnemigos().get(i).getMinionImVal(1)+(level.getEnemigos().get(i).getMinionImVal(3)*level.getEnemigos().get(i).getMinionImVal(5)), level.getEnemigos().get(i).getMinionImVal(2),level.getEnemigos().get(i).getMinionImVal(3), level.getEnemigos().get(i).getMinionImVal(4), level.getrefX()+ level.getEnemigos().get(i).getMiniVal(1),level.getrefY()-level.getEnemigos().get(i).getMiniVal(2), level.getEnemigos().get(i).getMiniVal(3), level.getEnemigos().get(i).getMiniVal(4));
                         Shape inter;
-                        if(level.getEnemigos().get(i).getType().equals("topo")){
-                            inter =SVGPath.intersect(level.getGamer().downColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
-                            if(inter.getBoundsInLocal().getWidth() != -1){
-                                level.getEnemigos().get(i).hurt(10);
+                        if(level.getGamer().getPose().contains("crouch")&&level.getGamer().getTraje().contains("terra")){
+                            inter =SVGPath.intersect(level.getGamer().personColid(), level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
+                            if(inter.getBoundsInLocal().getWidth() !=-1){
+                                level.getEnemigos().get(i).swicthMinion();
+                            }
+                            lapiz.drawImage(level.getEnemigos().get(i).getMinionImage(), level.getEnemigos().get(i).getMinionImVal(1)+(level.getEnemigos().get(i).getMinionImVal(3)*level.getEnemigos().get(i).getMinionImVal(5)), level.getEnemigos().get(i).getMinionImVal(2),level.getEnemigos().get(i).getMinionImVal(3), level.getEnemigos().get(i).getMinionImVal(4), level.getrefX()+ level.getEnemigos().get(i).getMiniVal(1),level.getrefY()-level.getEnemigos().get(i).getMiniVal(2), level.getEnemigos().get(i).getMiniVal(3), level.getEnemigos().get(i).getMiniVal(4));
+                        }else{
+                            lapiz.drawImage(level.getEnemigos().get(i).getMinionImage(), level.getEnemigos().get(i).getMinionImVal(1)+(level.getEnemigos().get(i).getMinionImVal(3)*level.getEnemigos().get(i).getMinionImVal(5)), level.getEnemigos().get(i).getMinionImVal(2),level.getEnemigos().get(i).getMinionImVal(3), level.getEnemigos().get(i).getMinionImVal(4), level.getrefX()+ level.getEnemigos().get(i).getMiniVal(1),level.getrefY()-level.getEnemigos().get(i).getMiniVal(2), level.getEnemigos().get(i).getMiniVal(3), level.getEnemigos().get(i).getMiniVal(4));
+                            if(level.getEnemigos().get(i).getType().equals("topo")){
+                                inter =SVGPath.intersect(level.getGamer().downColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
+                                if(inter.getBoundsInLocal().getWidth() != -1){
+                                    level.getEnemigos().get(i).hurt(10);
+                                }else{
+                                    inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
+                                    if(inter.getBoundsInLocal().getWidth() != -1){
+                                        level.getGamer().setHurt(level.getEnemigos().get(i).getDamage());
+                                    }
+                                }
+
                             }else{
                                 inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
                                 if(inter.getBoundsInLocal().getWidth() != -1){
                                     level.getGamer().setHurt(level.getEnemigos().get(i).getDamage());
                                 }
-                            }
-
-                        }else{
-                            inter = SVGPath.intersect(level.getGamer().personColid(),level.getEnemigos().get(i).getShape(level.getrefX(), level.getrefY()));
-                            if(inter.getBoundsInLocal().getWidth() != -1){
-                                level.getGamer().setHurt(level.getEnemigos().get(i).getDamage());
                             }
                         }
                         level.getEnemigos().get(i).desplazar();
@@ -245,20 +258,11 @@ public class Loop extends AnimationTimer {
                 Shape inter = SVGPath.intersect(level.getNext(level.getrefX(),level.getrefY()), level.getGamer().personColid());
                 if(inter.getBoundsInLocal().getWidth() != -1){
                     System.out.println("change uff");
-                    changeLevel(level.getLevelSig(), 1);
+                    changeLevel(level.getLevelSig(),0);
                     break;
                 }
             break;
         }
-    }
-    
-    /**
-     * En este metodo se dibuja al personaje usado por el jugador
-     */
-    
-    private void Player(){
-        lapiz.drawImage(this.level.getGamer().getvisPlayerImage(), this.level.getGamer().getVisPlayerX(), this.level.getGamer().getVisPlayerY(), this.level.getGamer().getVisPlayerLarge(), this.level.getGamer().getVisPlayerAncho(), this.level.getGamer().getX(), this.level.getGamer().getY(), this.level.getGamer().getLarge(), this.level.getGamer().getHigh());
-        
     }
     
     /**
@@ -286,55 +290,79 @@ public class Loop extends AnimationTimer {
  
     }
     
-    
-    
     private void Interfaz(){
         lapiz.fillRect(0, 100, this.level.getGamer().getLive().getLive()*10, 50);
         lapiz.scale(10, 10);
         lapiz.strokeText(this.level.getGamer().getPower(), 10, 10);
         lapiz.scale(0.1, 0.1);
     }
-    private void changeLevel() throws IOException{
+    private void changeLevel(int a) throws IOException{
         lapiz.fillRect(0, 0, 1280, 650);
-        this.presentacion.putMenu();
+        this.presentacion.putMenu(a);
         
     }
-    private void changeLevel(String nivel, int slote) throws IOException{
+    private void changeLevel(String nivel, int a) throws IOException{
         lapiz.setFill(Color.BLACK);
         lapiz.fillRect(0, 0, 1280, 650);
-        this.nivel="default";
-        level=new Travel(nivel,slote);
-        
+        if(a==0){
+            this.nivel="default";
+            level=new Travel(nivel);
+        }else{
+            presentacion.putMenu(1);
+        }
     }
+    
     
     private void Botons() throws IOException {
         switch(nivel){
             case "menu":
                 if(presentacion.getName().equals("IniPantalla")){
                     if(pulsacionTeclado.contains("ENTER")){
-                    changeLevel();
+                    changeLevel(0);
                     espboton=0;
                     }
-                }else{
+                }else if(presentacion.getName().equals("MenuSave")){
                     if(pulsacionTeclado.contains("UP")&&espboton>10){
-                        presentacion.change(-1);
+                        presentacion.changeOne(-1);
                         espboton=0;
                     }
                     if(pulsacionTeclado.contains("DOWN")&&espboton>10){
-                        presentacion.change(1);
+                        presentacion.changeOne(1);
                         espboton=0;
                     }
                     if(pulsacionTeclado.contains("ENTER")&&espboton>20){
-                        changeLevel("Level1.0",presentacion.getBoton()+1);
+                        changeLevel("Level1.0",presentacion.getBoton());
                         espboton=0;
                     }
-                    if(pulsacionTeclado.contains("X")&&espboton>20){
-                        System.out.println(presentacion.getBoton());
-                        //LectoEscritura.resetLevel(presentacion.getBoton()+1);
-                        changeLevel();
+                }else{
+                    if(pulsacionTeclado.contains("UP")&&espboton>10){
+                        presentacion.changeTwo("up");
+                        espboton=0;
+                    }
+                    if(pulsacionTeclado.contains("DOWN")&&espboton>10){
+                        presentacion.changeTwo("down");
+                        espboton=0;
+                    }
+                    if(pulsacionTeclado.contains("LEFT")&&espboton>10){
+                        presentacion.changeTwo("left");
+                        espboton=0;
+                    }
+                    if(pulsacionTeclado.contains("RIGHT")&&espboton>10){
+                        presentacion.changeTwo("right");
                         espboton=0;
                     }
                     
+                    if(pulsacionTeclado.contains("ENTER")&&espboton>20){
+                        if(presentacion.canChangeCode()){
+                            changeLevel(presentacion.changeCode(),0);
+                        }else{
+                            changeLevel("Level0",3);
+                        }
+                        espboton=0;
+                    }
+                    if(pulsacionTeclado.contains("ESCAPE")){
+                        changeLevel(0);
+                    }
                 }
                     
             break;
@@ -361,7 +389,9 @@ public class Loop extends AnimationTimer {
                     level.getBotons().replace("crouch", Boolean.FALSE);
                 }
                 if(pulsacionTeclado.contains("Z")){
-                    level.getBotons().replace("attack",true);
+                    if(!this.level.getGamer().getTraje().contains("default")){
+                        level.getBotons().replace("attack",true);
+                    }
                 }else{
                     level.getBotons().replace("attack", Boolean.FALSE);
                 }
@@ -378,16 +408,7 @@ public class Loop extends AnimationTimer {
                     this.level.getGamer().setTraje();
                     espboton=0;
                 }
-                if(pulsacionTeclado.contains("Z")){
-                    if(!this.level.getGamer().getTraje().equals("equals")){
-                        this.level.getGamer().setPose("attack");
-                    }
-                }
             break;    
-        }
-        
-        
-
-            
+        } 
     }
 }

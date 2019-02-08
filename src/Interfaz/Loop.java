@@ -296,9 +296,9 @@ public class Loop extends AnimationTimer {
         lapiz.strokeText(this.level.getGamer().getPower(), 10, 10);
         lapiz.scale(0.1, 0.1);
     }
-    private void changeLevel(int a) throws IOException{
+    private void changeLevel(String name) throws IOException{
         lapiz.fillRect(0, 0, 1280, 650);
-        this.presentacion.putMenu(a);
+        this.presentacion.putMenu(name);
         
     }
     private void changeLevel(String nivel, int a) throws IOException{
@@ -308,7 +308,7 @@ public class Loop extends AnimationTimer {
             this.nivel="default";
             level=new Travel(nivel);
         }else{
-            presentacion.putMenu(1);
+            presentacion.putMenu("Password");
         }
     }
     
@@ -318,7 +318,7 @@ public class Loop extends AnimationTimer {
             case "menu":
                 if(presentacion.getName().equals("IniPantalla")){
                     if(pulsacionTeclado.contains("ENTER")){
-                    changeLevel(0);
+                    changeLevel("MenuSave");
                     espboton=0;
                     }
                 }else if(presentacion.getName().equals("MenuSave")){
@@ -361,7 +361,7 @@ public class Loop extends AnimationTimer {
                         espboton=0;
                     }
                     if(pulsacionTeclado.contains("ESCAPE")){
-                        changeLevel(0);
+                        changeLevel("MenuSave");
                     }
                 }
                     

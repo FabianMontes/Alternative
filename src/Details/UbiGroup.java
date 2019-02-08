@@ -11,9 +11,8 @@ package Details;
 import java.util.ArrayList;
 
 /**
- *La Clase Loop es donde generaremos la interaccion entre el uego y el jugador.
- * @author Fabián Montes.
- * @version 2.41.7.
+ * La Clase Ubigroup guarda la ubicacion de muchos objetos iguales
+ * @version 2.0.1.
  */
 public class UbiGroup {
     private String group;

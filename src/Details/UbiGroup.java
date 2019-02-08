@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * La Clase Ubigroup guarda la ubicacion de muchos objetos iguales
+ * @author Fabian Montes
  * @version 2.0.1.
  */
 public class UbiGroup {
@@ -211,4 +212,5 @@ public class UbiGroup {
     public void setDifAncho(ArrayList<Double> difAncho) {
         this.difAncho = difAncho;
     }
+
 }

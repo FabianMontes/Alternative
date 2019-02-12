@@ -17,8 +17,9 @@ import java.util.ArrayList;
 
 
 /**
- *
+ * Esta Clase sirve para representar al personaje manejado por el jugador
  * @author fanat
+ * @version 2.5.2
  */
 public class Player extends PerMov{
     private HashMap<String,Visual> visPlayer;
@@ -77,20 +78,6 @@ public class Player extends PerMov{
     
     public double getVisPlayerAncho() {
         return visPlayer.get(traje).getPart(pose+look, 4);
-    }
-    
-    private int cantPowers(HashMap<String,Integer> powers){
-        if(powers.get("terra")==0){
-            return 0;
-        }else if(powers.get("aero")==0){
-            return 1;
-        }else if(powers.get("aqua")==0){
-            return 2;
-        }else if(powers.get("pyro")==0){
-            return 3;
-        }else{
-            return 4;
-        }
     }
     
     public Shape upColid(){
@@ -364,4 +351,13 @@ public class Player extends PerMov{
     public void setAnim(int anim) {
         this.anim = anim;
     }
+
+    public ArrayList<String> getUnlockedPowers() {
+        return unlockedPowers;
+    }
+
+    public void setUnlockedPowers(ArrayList<String> unlockedPowers) {
+        this.unlockedPowers = unlockedPowers;
+    }
+    
 }

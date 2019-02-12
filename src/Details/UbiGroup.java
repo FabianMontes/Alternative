@@ -55,7 +55,7 @@ public class UbiGroup {
      * @param x ubicacion en x del objeto
      * @param y ubicacion en y del objeto
      * @param lar largo del objeto
-     * @param anc ancho del objeto
+     * @param anc alto del objeto
      */
     public void addGroup(double x, double y,double lar, double anc){
         this.difX.add(x);
@@ -107,9 +107,9 @@ public class UbiGroup {
     }
     
     /**
-     * Conseguir el ancho de determinado objeto
+     * Conseguir el alto de determinado objeto
      * @param a numero del objeto a conocer
-     * @return el ancho del objeto
+     * @return el alto del objeto
      */
     
     public double getGroupAncho(int a){
@@ -122,7 +122,7 @@ public class UbiGroup {
      * @param x nueva ubicacion en X
      * @param y nueva ubicacion en Y
      * @param lar nuevo largo
-     * @param anc nuevo ancho
+     * @param anc nuevo alto
      */
     
     public void replaceGroup(int a, double x, double y,double lar, double anc){
@@ -169,8 +169,8 @@ public class UbiGroup {
     }
     
     /**
-     * da todos los anchos de los objetos
-     * @return todos los anchos
+     * da todos los altos de los objetos
+     * @return todos los altos
      */
     
     public ArrayList<Double> getDifAncho() {
@@ -205,7 +205,7 @@ public class UbiGroup {
     }
 
     /**
-     * Cambia todos los anchos de los objetos
+     * Cambia todos los altos de los objetos
      * @param difAncho los nuevos largos 
      */
     

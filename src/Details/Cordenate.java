@@ -22,7 +22,7 @@ public class Cordenate {
      * @param x cordenada X inicial de la parte
      * @param y cordenada Y inicial de la parte
      * @param large largo de la parte 
-     * @param high ancho de la pate
+     * @param high alto de la pate
      * @param animationN cantidad de imagenes que contiene esa parte
      */
 
@@ -41,7 +41,7 @@ public class Cordenate {
      * @param x cordenada X inicial de la parte
      * @param y cordenada Y inicial de la parte
      * @param large largo de la parte 
-     * @param high ancho de la pate
+     * @param high alto de la pate
      */
     
     public Cordenate(String part, double x, double y, double large, double high) {
@@ -143,8 +143,8 @@ public class Cordenate {
     }
 
     /**
-     * Cambia el ancho de la parte
-     * @param high nuevo ancho de la parte
+     * Cambia el alto de la parte
+     * @param high nuevo alto de la parte
      */
     
     public void setHigh(double high) {

@@ -84,7 +84,7 @@ public class Visual {
      * @param x nuevo X de la parte
      * @param y nuevo Y de la parte
      * @param large nuevo largo de la parte
-     * @param high nuevo ancho de la parte
+     * @param high nuevo alto de la parte
      * @param animationN nueva cantidad de animaciones
      */
     

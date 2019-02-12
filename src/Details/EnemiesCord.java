@@ -101,11 +101,11 @@ public class EnemiesCord {
         }
     }
     
-    public boolean inLimitY(boolean up,double ancho){
+    public boolean inLimitY(boolean up,double alto){
         if(up){
             return y>maxY;
         }else{
-            return y+ancho>minY;
+            return y+alto>minY;
         }
     }
     

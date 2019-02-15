@@ -5,7 +5,7 @@
  */
 package Details;
 /**
- *
+ * La Clase EnemiesCord Un rango de desplazamiento del enemigo 
  * @author fanat
  */
 public class EnemiesCord {
@@ -18,6 +18,12 @@ public class EnemiesCord {
     private double maxY;
     private double animationN;
 
+    /**
+     * Constructor de la clase
+     * @param minion Nombre del Enemigo
+     * @param x Ubicacion en X del enemigo
+     * @param y Ubicacion en Y del enemigo
+     */
     public EnemiesCord(String minion, double x, double y, double minX, double maxX, double minY, double maxY) {
         this.minion = minion;
         this.x = x;

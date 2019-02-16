@@ -123,10 +123,8 @@ public class Loop extends AnimationTimer {
                 lapiz.drawImage(this.presentacion.getImagens().get("fondo").getUbicacion(), this.presentacion.getImagens().get("fondo").getPart("fondo", 1)+(FondoAnim*this.presentacion.getImagens().get("fondo").getPart("fondo", 3)), this.presentacion.getImagens().get("fondo").getPart("fondo", 2), this.presentacion.getImagens().get("fondo").getPart("fondo", 3), this.presentacion.getImagens().get("fondo").getPart("fondo", 4), 0, 0, 1280, 650);
                 if(!presentacion.getName().equals("IniPantalla")){
                     lapiz.drawImage(this.presentacion.getImagens().get("parts").getUbicacion(), (this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 1)+(this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 3)*this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 5))), this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 2), this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 3), this.presentacion.getImagens().get("parts").getPart(presentacion.getDestellos().get(0).getGroup(), 4), presentacion.getDestellos().get(0).getGroupX(0), presentacion.getDestellos().get(0).getGroupY(0), presentacion.getDestellos().get(0).getGroupLarge(0), presentacion.getDestellos().get(0).getGroupAncho(0));
-                    System.out.println(presentacion.getDestellos().size());
                     for (int i = 1; i < presentacion.getDestellos().size(); i++) {
                         //this.stop();
-                        System.out.println(presentacion.getDestellos().get(i).size());
                         for (int j = 0; j < presentacion.getDestellos().get(i).size(); j++) {
                             lapiz.drawImage(this.presentacion.getImagens().get("parts").getUbicacion(), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j],1), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j], 2), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j], 3), this.presentacion.getImagens().get("parts").getPart(this.presentacion.getDestellos().get(i).getGroup()+presentacion.getCode()[j], 4), presentacion.getDestellos().get(i).getGroupX(j), presentacion.getDestellos().get(i).getGroupY(j), presentacion.getDestellos().get(i).getGroupLarge(j), presentacion.getDestellos().get(i).getGroupAncho(j));
                         }
@@ -314,6 +312,9 @@ public class Loop extends AnimationTimer {
     
     
     private void Botons() throws IOException {
+        for (int i = 0; i < pulsacionTeclado.size(); i++) {
+            System.out.println(this.pulsacionTeclado.get(i));
+        }
         switch(nivel){
             case "menu":
                 if(presentacion.getName().equals("IniPantalla")){
@@ -408,6 +409,11 @@ public class Loop extends AnimationTimer {
                     this.level.getGamer().setTraje();
                     espboton=0;
                 }
+                if(pulsacionTeclado.contains("F")&&espboton>10){
+                    this.level.getGamer().getLive().fillLive();
+                    espboton=0;
+                }
+                
             break;    
         } 
     }

@@ -12,28 +12,48 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
- *
- * @author fanat
+ * Esta Clase sirve para leer determinadas partes de determinados archivos archivos
+ * @author Fabian Montes
+ * @version 2.5.7
  */
 public class LectoEscritura {
     @SuppressWarnings("empty-statement")
+    
+    /**
+     * Consigue la ubicacion de todos los objetos en un nivel
+     * @param File archivo del nivel a leer
+     * @param objeto lista donde guardaremos los objetos
+     * @return Lista de objetos con sus ubicaciones en nivel
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    
     public static ArrayList<UbiGroup> UbicarLevel(File archivo, ArrayList<UbiGroup> objeto) throws FileNotFoundException, IOException{
-        Scanner in = new Scanner(new FileReader(archivo));
-        while (in.hasNext()) {
-            String a= in.nextLine();
-            objeto.add(new UbiGroup(a));
-            int parts = Integer.parseInt(in.nextLine());
-            for(int i=0;i<parts;i++){
-                double x = Double.parseDouble(in.nextLine());
-                double y = Double.parseDouble(in.nextLine());
-                double large= Double.parseDouble(in.nextLine());
-                double ancho= Double.parseDouble(in.nextLine());
-                objeto.get(objeto.size()-1).addGroup(x, y,large,ancho);
+        try (Scanner in = new Scanner(new FileReader(archivo))) {
+            while (in.hasNext()) {
+                String a= in.nextLine();
+                objeto.add(new UbiGroup(a));
+                int parts = Integer.parseInt(in.nextLine());
+                for(int i=0;i<parts;i++){
+                    double x = Double.parseDouble(in.nextLine());
+                    double y = Double.parseDouble(in.nextLine());
+                    double large= Double.parseDouble(in.nextLine());
+                    double ancho= Double.parseDouble(in.nextLine());
+                    objeto.get(objeto.size()-1).addGroup(x, y,large,ancho);
+                }
             }
         }
-        in.close();
         return objeto;
     }
+    
+    /**
+     * Busca en un archivo cierta clave y guarda todas las lineas entre la clave y la clave cerrada (F+clave)
+     * @param Ffichero archivo a investigar
+     * @param Key Clave para allar los datos
+     * @return lista de datos encontrados
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     
     public static ArrayList<String> detectKey(File Ffichero,String Key) throws FileNotFoundException, IOException{
         ArrayList<String> Keys =new ArrayList<>();
@@ -60,6 +80,15 @@ public class LectoEscritura {
         }
         return Keys;
     }
+    
+    /**
+     * Consigue la Ubicacion de los enemigos de un nivel usando la tecnica de las claves
+     * @param Ffichero Archivo a investigar
+     * @param Key Nombre clave de los enemigos en el nivel
+     * @return lista de enemigos del nivel
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     
     public static ArrayList<Enemie> getEnemie(File Ffichero,String Key) throws FileNotFoundException, IOException{
         ArrayList<Enemie> minions =new ArrayList<>();
@@ -106,6 +135,15 @@ public class LectoEscritura {
         }
         return minions;
     }
+    
+    /**
+     * Consigue las partes de Una lista de imagenes requeridas
+     * @param archivo Nombre del archivo a utilizar
+     * @param objeto Lista donde se guardaran las partes de las imagenes
+     * @return nueva lista de partes de imagenes requeridas
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
 
     public static HashMap<String,Visual> PartesEnImagen(String archivo, HashMap<String,Visual> objeto)throws FileNotFoundException, IOException{
         Scanner in = new Scanner(new FileReader(archivo));
@@ -129,212 +167,4 @@ public class LectoEscritura {
         
         return objeto;
     }
-    
-    public static void EcribirFichero(File Ffichero,String SCadena){
-        try {
-
-            if(!Ffichero.exists()){
-                Ffichero.createNewFile();
-            }
-
-            BufferedWriter Fescribe = new BufferedWriter(new FileWriter(Ffichero,true));
-            Fescribe.write(SCadena + "\n");
-
-        } catch (IOException ex) {
-           //Captura un posible error le imprime en pantalla 
-            System.out.println(ex.getMessage());
-        } 
-    }
-    
-    public static  void BorrarFichero(File Ffichero){
-        try {
-            /*Si existe el fichero*/
-            if(Ffichero.exists()){
-                /*Borra el fichero*/  
-                Ffichero.delete(); 
-                System.out.println("Fichero Borrado con Exito");
-            }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    
-    public static  void ModificarFichero(File FficheroAntiguo,String Satigualinea,String Snuevalinea){        
-        String SnombFichNuev=FficheroAntiguo.getParent()+"/auxiliar.txt";
-        File FficheroNuevo=new File(SnombFichNuev);
-        try {
-            /*Si existe el fichero inical*/
-            if(FficheroAntiguo.exists()){
-                /*Abro un flujo de lectura*/
-                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
-                String Slinea;
-                /*Recorro el fichero de texto linea a linea*/
-                while((Slinea=Flee.readLine())!=null) { 
-                    /*Si la lia obtenida es igual al la bucada
-                     *para modificar*/
-                    if (Slinea.toUpperCase().trim().equals(Satigualinea.toUpperCase().trim())) {
-                       /*Escribo la nueva linea en vez de la que tenia*/
-                        EcribirFichero(FficheroNuevo,Snuevalinea);
-                    }else{
-                        /*Escribo la linea antigua*/
-                         EcribirFichero(FficheroNuevo,Slinea);
-                    }             
-                }
-                /*Obtengo el nombre del fichero inicial*/
-                String SnomAntiguo=FficheroAntiguo.getName();
-                /*Borro el fichero inicial*/
-                BorrarFichero(FficheroAntiguo);
-                /*renombro el nuevo fichero con el nombre del 
-                *fichero inicial*/
-                FficheroNuevo.renameTo(FficheroAntiguo);
-                /*Cierro el flujo de lectura*/
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
-            }
-        } catch (Exception ex) {
-            /*Captura un posible error y le imprime en pantalla*/ 
-             System.out.println(ex.getMessage());
-        }
-    }
-    
-    public static  void EliminarRegistro(File FficheroAntiguo,String Satigualinea){        
-        String SnombFichNuev=FficheroAntiguo.getParent()+"/auxiliar.txt";
-        File FficheroNuevo=new File(SnombFichNuev);
-        try {
-            /*Si existe el fichero inical*/
-            if(FficheroAntiguo.exists()){
-                /*Abro un flujo de lectura*/
-                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
-                String Slinea;
-                /*Recorro el fichero de texto linea a linea*/
-                while((Slinea=Flee.readLine())!=null) { 
-                     /*Si la linea obtenida es distinta al la buscada
-                     *para eliminar*/
-                    if (!Slinea.toUpperCase().trim().equals(Satigualinea.toUpperCase().trim())) {
-                       /*la escribo en el fichero nuevo*/ 
-                       EcribirFichero(FficheroNuevo,Slinea);
-                    }else{
-                        /*Si es igual simple mete no hago nada*/
-                    }             
-                }
-                /*Obtengo el nombre del fichero inicial*/
-                String SnomAntiguo=FficheroAntiguo.getName();
-                /*Borro el fichero inicial*/
-                BorrarFichero(FficheroAntiguo);
-                /*renombro el nuevo fichero con el nombre del fichero inicial*/
-                FficheroNuevo.renameTo(FficheroAntiguo);
-                /*Cierro el flujo de lectura*/
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
-            }
-        } catch (Exception ex) {
-             System.out.println(ex.getMessage());
-        }
-         BorrarFichero(FficheroAntiguo);
-    }
-    public static  void EliminarPieza(File FficheroAntiguo,String Clase, String key){        
-        String SnombFichNuev=FficheroAntiguo.getParent()+"/auxiliar.txt";
-        File FficheroNuevo=new File(SnombFichNuev);
-        boolean x=false;
-        try {
-            /*Si existe el fichero inical*/
-            if(FficheroAntiguo.exists()){
-                /*Abro un flujo de lectura*/
-                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
-                String Slinea;
-                /*Recorro el fichero de texto linea a linea*/
-                while((Slinea=Flee.readLine())!=null) { 
-                     /*Si la linea obtenida es distinta al la buscada
-                     *para eliminar*/
-                    if (Slinea.toUpperCase().trim().equals(Clase.toUpperCase().trim())) {
-                       /*la escribo en el fichero nuevo*/ 
-                       x=true;
-                    }
-                    if(x){
-                        if (Slinea.toUpperCase().trim().equals(key.toUpperCase().trim())) {
-                            Flee.readLine();
-                            Flee.readLine();
-                        }else{
-                            EcribirFichero(FficheroNuevo,Slinea);
-                        }
-                    }else{
-                        EcribirFichero(FficheroNuevo,Slinea);
-                    }
-
-                }
-                /*Obtengo el nombre del fichero inicial*/
-                String SnomAntiguo=FficheroAntiguo.getName();
-                /*Borro el fichero inicial*/
-                BorrarFichero(FficheroAntiguo);
-                /*renombro el nuevo fichero con el nombre del fichero inicial*/
-                FficheroNuevo.renameTo(FficheroAntiguo);
-                /*Cierro el flujo de lectura*/
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
-            }
-        } catch (Exception ex) {
-             System.out.println(ex.getMessage());
-        }
-        BorrarFichero(FficheroAntiguo);
-    }
-    
-    public static  void ResetPowers(File FficheroAntiguo){        
-        String SnombFichNuev=FficheroAntiguo.getParent()+"/auxiliar.txt";
-        File FficheroNuevo=new File(SnombFichNuev);
-        try {
-            /*Si existe el fichero inical*/
-            if(FficheroAntiguo.exists()){
-                /*Abro un flujo de lectura*/
-                BufferedReader Flee= new BufferedReader(new FileReader(FficheroAntiguo));
-                String Slinea;
-                /*Recorro el fichero de texto linea a linea*/
-                while((Slinea=Flee.readLine())!=null) { 
-                    /*Si la lia obtenida es igual al la bucada
-                     *para modificar*/
-                    if (Slinea.toUpperCase().trim().equals("terra")||Slinea.toUpperCase().trim().equals("aero")||Slinea.toUpperCase().trim().equals("aqua")||Slinea.toUpperCase().trim().equals("pyro")) {
-                       /*Escribo la nueva linea en vez de la que tenia*/
-                        EcribirFichero(FficheroNuevo,"0");
-                    }else{
-                        /*Escribo la linea antigua*/
-                         EcribirFichero(FficheroNuevo,Slinea);
-                    }             
-                }
-                /*Obtengo el nombre del fichero inicial*/
-                //String SnomAntiguo=FficheroAntiguo.getName();
-                /*Borro el fichero inicial*/
-                //BorrarFichero(FficheroAntiguo);
-                /*renombro el nuevo fichero con el nombre del 
-                *fichero inicial*/
-                //FficheroAntiguo.renameTo(FficheroNuevo);
-                /*Cierro el flujo de lectura*/
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
-            }
-        } catch (Exception ex) {
-            /*Captura un posible error y le imprime en pantalla*/ 
-             System.out.println(ex.getMessage());
-        }
-        //BorrarFichero(FficheroNuevo);
-         
-    }
-    
-    public static void resetLevel(int option){
-        System.out.println(option);
-        switch(option){
-            case 1:
-                ModificarFichero(new File("src/code/SaveGame1.txt"),"3","0");
-            break;
-            case 2:
-                ResetPowers(new File("src/code/SaveGame2.txt"));
-            break;
-            case 3:
-                ResetPowers(new File("src/code/SaveGame3.txt"));
-            break;
-        }
-    }
-
 }

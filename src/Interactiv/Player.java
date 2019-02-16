@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Esta Clase sirve para representar al personaje manejado por el jugador
  * @author fanat
- * @version 2.5.2
+ * @version 2.5.3
  */
 public class Player extends PerMov{
     private HashMap<String,Visual> visPlayer;
@@ -34,7 +34,13 @@ public class Player extends PerMov{
     private int invultime;
     private boolean canGrow;
     
-
+    /**
+     * Constructor del jugador
+     * @param level Nivel en donde se encuentra
+     * @param x ubicacion original en X
+     * @param y ubicacion original en Y
+     * @throws IOException 
+     */
     
     public Player(String level, double x, double y) throws IOException {
         super(4, 7, 10, false, 100, 350, 100,12,20,30,115,126,10);
@@ -49,36 +55,73 @@ public class Player extends PerMov{
         invultime=20;
         canGrow=true;
     }
+    
+    /**
+     * Dice si tiene o no espacio para crecer
+     * @return tiene espacio?
+     */
 
     public boolean isCanGrow() {
         return canGrow;
     }
 
+    /**
+     * Cambia la variable de tener espacio para crecer
+     * @param canGrow nueva variable
+     */
+    
     public void setCanGrow(boolean canGrow) {
         this.canGrow = canGrow;
     }
 
-    
+    /**
+     * consigue la imagen del traje usado por el personaje
+     * @return imagen traje
+     */
     
     public Image getvisPlayerImage(){
         return visPlayer.get(traje).getUbicacion();
     }
+    
+    /**
+     * Consigue la ubicacion del pixel X en la imagen del personaje
+     * @return ubicacion en X de la imagen
+     */
+    
     public double getVisPlayerX() {
         return visPlayer.get(traje).getPart(pose+look, 1)+(anim*visPlayer.get(traje).getPart(pose+look, 3));
     }
     
+    /**
+     * Consigue la ubicacion del pixel Y en la imagen del personaje
+     * @return ubicacion en Y de la imagen
+     */
+    
     public double getVisPlayerY() {
         return visPlayer.get(traje).getPart(pose+look, 2);
     }
+    
+    /**
+     * Consigue el largo de la imagen del personaje
+     * @return largo de la imagen
+     */
     public double getVisPlayerLarge() {
         return visPlayer.get(traje).getPart(pose+look, 3);
     }
     
-    
+    /**
+     * Consigue el ancho de la imagen del personaje
+     * @return ancho de la imagen
+     */
     
     public double getVisPlayerAncho() {
         return visPlayer.get(traje).getPart(pose+look, 4);
     }
+    
+    /**
+     * Consigue el espacio de la parte de arriba del jugador 
+     * @return parte de arriba del personaje
+     */
     
     public Shape upColid(){
         if(look.equals("R")){
@@ -97,6 +140,11 @@ public class Player extends PerMov{
         
     }
     
+    /**
+     * Consigue el espacio mas arrriba del jugador
+     * @return parte mas arriba del jugador
+     */
+    
     public Shape upUPColid(){
         if(look.equals("R")){
             if(pose.contains("crouch")&&!traje.contains("terra")){
@@ -113,6 +161,11 @@ public class Player extends PerMov{
         }
     }
     
+    /**
+     * Consigue la parte baja del jugador
+     * @return parte baja del jugador
+     */
+    
     public Shape downColid(){
         if(look.equals("R")){
             return new Rectangle(getX()+36, getY()+(getHigh()-2), 34, 3);
@@ -120,6 +173,11 @@ public class Player extends PerMov{
             return new Rectangle(getX()+45, getY()+(getHigh()-2), 34, 3);
         }
     }
+    
+    /**
+     * Consigue la parte zurda del jugador
+     * @return parte zurda del jugador
+     */
     
     public Shape leftColid(){
         if(look.equals("R")){
@@ -138,6 +196,11 @@ public class Player extends PerMov{
         
     }
     
+    /**
+     * Consigue la parte diestra del jugador
+     * @return parte diestra del jugador
+     */
+    
     public Shape rightColid(){
         if(look.equals("R")){
             if(pose.contains("crouch")&&!traje.contains("terra")){
@@ -153,6 +216,11 @@ public class Player extends PerMov{
             }
         }   
     }
+    
+    /**
+     * Consigue la parte del personaje donde recibe daño
+     * @return parte del personaje donde recibe daño
+     */
     
     public Shape personColid(){
         if(look.equals("R")){
@@ -171,8 +239,14 @@ public class Player extends PerMov{
         }
     }
     
+    /**
+     * Lista de formas donde el jugador hace daño
+     * @return lugares donde hacen daño
+     */
+    
     public ArrayList<Shape> damageColid(){
         ArrayList<Shape> damages =new ArrayList<>();
+        damages.clear();
         switch(traje){
             case "terra":
                 if(look.equals("R")){
@@ -182,9 +256,16 @@ public class Player extends PerMov{
                 }
                 
             break;
+            case "default":
+                damages.clear();
+            break;
         }
         return damages;
     }
+    
+    /**
+     * Cambia la animacion del personaje segun el traje su orientacion y la pose 
+     */
     
     public void setAnimation(){
         if(pose.equals("quiet")&&!look2.equals(look)){
@@ -211,24 +292,47 @@ public class Player extends PerMov{
             anim=0;
             pose2=pose;
         }       
-        
     }
+    
+    /**
+     * Consigue la pose anterior que tenia el personaje
+     * @return pose anterior del personaje
+     */
 
     public String getPose2() {
         return pose2;
     }
     
+    /**
+     * Consigue el traje actual del personaje
+     * @return traje actual
+     */
+    
     public String getTraje() {
         return traje;
     }
+    
+    /**
+     * Consigue a pose actual del personaje
+     * @return pose actual
+     */
 
     public String getPose() {
         return pose;
     }
+    
+    /**
+     * consigue la orientacion actual del personaje
+     * @return orientacion actual
+     */
 
     public String getLook() {
         return look;
     }
+    
+    /**
+     * Cambia el traje por el poder actual siempre que sea posible
+     */
 
     public void setTraje() {
         if(!traje.equals(power)){
@@ -243,8 +347,12 @@ public class Player extends PerMov{
             }
             
         }
-        
     }
+    
+    /**
+     * Cambia la pose actual
+     * @param pose nueva pose 
+     */
 
     public void setPose(String pose) {
         this.pose = pose;
@@ -253,6 +361,11 @@ public class Player extends PerMov{
             pose2=this.pose;
         }
     }
+    
+    /**
+     * Cambia la orientacion del personaje
+     * @param d nueva orientacion
+     */
 
     public void Look(String d) {
         look=d;
@@ -263,11 +376,18 @@ public class Player extends PerMov{
         }
     }
 
+    /**
+     * Consigue el poder actual del personaje
+     * @return poder actual
+     */
+    
     public String getPower() {
         return power;
     }
 
-    
+    /**
+     * Cambia el poder actual por el siguiente desbloqueado
+     */
     
     public void changePower() {
         switch(unlockedPowers.size()){
@@ -332,29 +452,59 @@ public class Player extends PerMov{
         }
     }
     
+    /**
+     * Hiere al personaje cierta cantidad de daño siempre que no sea invulnerable
+     * @param daño daño recibido
+     */
+    
     public void setHurt(int daño){
         if(invultime>=100){
             loselife(daño);
             invultime=0;
         }
-        
     }
+    
+    /**
+     * Consigue el tiempo sin recibir daño
+     * @return tiempo sin recibir daño
+     */
 
     public int getInvultime() {
         return invultime;
     }
+    
+    /**
+     * 
+     * Cambia el tiempo sin recibir daño
+     * @param invultime nuevo  tiempo sin daño
+     */
 
     public void setInvultime(int invultime) {
         this.invultime = invultime;
     }
+    
+    /**
+     * cambia la animacion a uno en especifico
+     * @param anim nueva animacion
+     */
 
     public void setAnim(int anim) {
         this.anim = anim;
     }
+    
+    /**
+     * consigue la lista de los poderes despbloqueados
+     * @return poderes desbloqueados
+     */
 
     public ArrayList<String> getUnlockedPowers() {
         return unlockedPowers;
     }
+    
+    /**
+     * Cambia toda la lista de poderes desbloqueados
+     * @param unlockedPowers nuevos poderes desbloqueados
+     */
 
     public void setUnlockedPowers(ArrayList<String> unlockedPowers) {
         this.unlockedPowers = unlockedPowers;

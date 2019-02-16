@@ -14,7 +14,7 @@ import java.util.HashMap;
 /**
  * Esta Clase sirve para leer determinadas partes de determinados archivos archivos
  * @author Fabian Montes
- * @version 2.5.7
+ * @version 2.6.1
  */
 public class LectoEscritura {
     @SuppressWarnings("empty-statement")

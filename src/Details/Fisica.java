@@ -8,7 +8,7 @@ package Details;
 /**
  * Esta clase guarda las variables fisicas que tiene determinado personaje
  * @author fanat
- * @version 3.5.3
+ * @version 3.6.1
  */
 public class Fisica {
     private double gravedad;

@@ -8,7 +8,7 @@ package Details;
 /**
  * Clase usada para todo personaje que realize movimiento
  * @author Fabian Montes
- * @version 3.2.2
+ * @version 3.3.1
  */
 public class PerMov {
     protected Fisica fisicas;

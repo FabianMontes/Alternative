@@ -7,7 +7,7 @@ package Details;
 /**
  * La Clase EnemiesCord Un rango de desplazamiento del enemigo 
  * @author Fabian Montes
- * @version 1.5.1
+ * @version 1.6.1
  */
 public class EnemiesCord {
     private String minion;

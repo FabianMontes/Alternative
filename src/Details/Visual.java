@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
 /**
  * La Clase Visual Guarda Todas las partes de una Imagen
  * @author Fabian Montes
- * @version 2.1.0
+ * @version 2.1.1
  */
 public class Visual {
     private Image ubicacion;

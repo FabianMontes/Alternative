@@ -7,7 +7,7 @@ package Details;
 /**
  * La clase Cordenate Ubica las cordenadas de cierta parte de una imagen, junto con la cantidad de imagenes tiene para la animacion
  * @author Fabian Montes
- * @version 2.1.0
+ * @version 2.1.1
  */
 public class Cordenate {
     private String part;

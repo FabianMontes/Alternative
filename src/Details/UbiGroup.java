@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * La Clase Ubigroup guarda la ubicacion de muchos objetos iguales
  * @author Fabian Montes
- * @version 2.0.1.
+ * @version 2.3.1.
  */
 public class UbiGroup {
     private String group;

@@ -8,7 +8,7 @@ package Details;
 /**
  * La Clase Live administra la vida de un personaje u objeto
  * @author Fabian Montes
- * @version 1.0.3
+ * @version 1.2.1
  */
 public class Live {
     private int live;

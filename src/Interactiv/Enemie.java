@@ -14,16 +14,42 @@ import Details.Visual;
 import Details.LectoEscritura;
 import javafx.scene.image.Image;
 /**
- *
- * @author fanat
+ * Esta clase define a un enemigo
+ * @author Fabian Montes
+ * @version 1.8.1
  */
 public class Enemie extends PerMov{
-    private String type;
-    private EnemiesCord minion; 
-    private HashMap<String,Visual> visEnemies;
+    protected String type;
+    protected EnemiesCord minion; 
+    protected HashMap<String,Visual> visEnemies;
 
-    public Enemie(String type, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high, double minX, double minY, double maxX, double maxY, int damage) throws IOException {
-        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high,damage);
+    /**
+     * Constructor de la clase
+     * @param type tipo de enemigo
+     * @param velmaxX velocidad maxima en X
+     * @param velmaxY velocidad maxima en Y
+     * @param time tiempo de salto
+     * @param lookLeft orientacion de la mirada
+     * @param live vida del enemigo
+     * @param Xref Ubicacion en X
+     * @param Yref Ubicacion en Y
+     * @param velmaxXinW velocidad en X dentro del agua
+     * @param velmaxYinW velocidad en Y dentro del agua
+     * @param time2 Tiempo maximo en el agua
+     * @param large largo del enemigo
+     * @param high alto del enemigo
+     * @param minX ubicacion minima en X
+     * @param minY ubicacion minima en Y
+     * @param maxX ubicacion maxima en X
+     * @param maxY ubicacion maxima en Y
+     * @param damage daño que realiza el enemigo
+     * @param weight peso del enemigo
+     * @param weightinW peso en el agua del enemigo
+     * @throws IOException 
+     */
+    
+    public Enemie(String type, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high, double minX, double minY, double maxX, double maxY, int damage, double weight, double weightinW) throws IOException {
+        super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high,damage,weight,weightinW);
         this.type = type;
         this.minion= new EnemiesCord(type, Xref, Yref, minX, maxX, minY, maxY);
         this.visEnemies= LectoEscritura.PartesEnImagen("src/code/Enemigos.txt", new HashMap<>());

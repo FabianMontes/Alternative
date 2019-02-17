@@ -25,7 +25,7 @@ public class Enemie extends PerMov{
 
     /**
      * Constructor de la clase
-     * @param type tipo de enemigo
+     * @param type tipo de enemigo                                                                                                             
      * @param velmaxX velocidad maxima en X
      * @param velmaxY velocidad maxima en Y
      * @param time tiempo de salto
@@ -55,37 +55,82 @@ public class Enemie extends PerMov{
         this.visEnemies= LectoEscritura.PartesEnImagen("src/code/Enemigos.txt", new HashMap<>());
     }
 
+    /**
+     * Hiere al enemigo cierta cantidad de daño
+     * @param damage Daño recibido
+     */
+    
     public void hurt(int damage){
         loselife(damage);
     }
     
+    /**
+     * Consigue todas las partes de las imagenes de los enemigos
+     * @return Imagenes del enemigo
+     */
+    
     public HashMap<String, Visual> getVisEnemies() {
         return visEnemies;
     }
+    
+    /**
+     * Consigue el tipo de Enemigo
+     * @return tipo de enemigo
+     */
 
     public String getType() {
         return type;
     }
     
+    /**
+     * Cambia todas las coordenadas de los enemigos
+     * @param minion Nuevas coordenadas
+     */
+    
     public void setMinions(EnemiesCord minion) {
         this.minion = minion;
     }
+    
+    /**
+     * Cambia el tipo el enemigo
+     * @param type nuevo tipo
+     */
 
     public void setType(String type) {
         this.type = type;
     }
+    
+    /**
+     * Cambia las partes de imagenes del dragon
+     * @param visEnemies nuevas partes de imagenes
+     */
 
     public void setVisEnemies(HashMap<String, Visual> visEnemies) {
         this.visEnemies = visEnemies;
     }
     
+    /**
+     * Cambia la orientacion actual del enemigo 
+     */
+    
     public void swicthMinion(){
         setLookLeft(!isLookingLeft());
     }
     
+    /**
+     * Consigue la imagen de los enemigos
+     * @return imagen
+     */
+    
     public Image getMinionImage(){
         return visEnemies.get("enemigos").getUbicacion();
     }
+    
+    /**
+     * Consigue el valor de la variable señalada de la imagen 
+     * @param x variable requerida
+     * @return valor buscado
+     */
     
     public double getMinionImVal(int x){
         if(isLookingLeft()){
@@ -94,6 +139,12 @@ public class Enemie extends PerMov{
             return visEnemies.get("enemigos").getPart(type+"R", x);
         }   
     }
+    
+    /**
+     * Consigue determinada ubicacion
+     * @param x variable requerida
+     * @return valor buscado
+     */
     
     public double getMiniVal(int x){
         switch(x){
@@ -108,9 +159,20 @@ public class Enemie extends PerMov{
         }
     }
     
+    /**
+     * Consigue la forma del enemigo
+     * @param refX ubicacion del centro en X
+     * @param refY ubicacion del centro en X
+     * @return Forma
+     */
+    
     public Shape getShape(double refX, double refY){
         return new Rectangle(refX+getMiniVal(1),refY-getMiniVal(2), getMiniVal(3), getMiniVal(4));
     }
+    
+    /**
+     * desplaza la ubicacion del enemigo segun su orientacion y limites
+     */
 
     @Override
     public void desplazar() {
@@ -129,9 +191,5 @@ public class Enemie extends PerMov{
                 this.minion.setX(this.cord[1]+=this.fisicas.getVelmaxX());
             }
         }
-        
     }
-    
-    
-    
 }

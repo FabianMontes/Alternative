@@ -11,8 +11,8 @@ package Details;
  * @version 3.6.1
  */
 public class Fisica {
-    private double gravedad;
-    private double gravityinW;
+    private double peso;
+    private double weightinW;
     private double velmaxX;
     private double velmaxY;
     private boolean jumping;
@@ -24,20 +24,20 @@ public class Fisica {
     private double velmaxYinW;
     
     /**
-     * Constructor de la clase 1 que cambia las gravedades
+     * Constructor de la clase 1 que cambia los pesos
      * @param velmaxX velocidad del dezplazamiento en X
      * @param velmaxY velocidad de dezplazamiento en Y
      * @param timejump tiempo maximo de salto
      * @param velmaxXinW velocidad de dezplazamiento en X en el agua
      * @param velmaxYinW velocidad de dezplazamiento en Y en el agua
      * @param timeinWater tiempo maximo de estadia en el agua
-     * @param gravedad fuerza de descenso que recibe el personaje
-     * @param gravityinW fuerza de descenso que recibe en el agua
+     * @param peso fuerza de descenso que recibe el personaje
+     * @param weightinW fuerza de descenso que recibe en el agua
      */
 
-    public Fisica(double velmaxX, double velmaxY, int timejump, double velmaxXinW, double velmaxYinW, int timeinWater, double gravedad, double gravityinW) {
-        this.gravedad = gravedad;
-        this.gravityinW = gravityinW;
+    public Fisica(double velmaxX, double velmaxY, int timejump, double velmaxXinW, double velmaxYinW, int timeinWater, double peso, double weightinW) {
+        this.peso = peso;
+        this.weightinW = weightinW;
         this.velmaxX = velmaxX;
         this.velmaxY = velmaxY;
         this.jumping = false;
@@ -50,7 +50,7 @@ public class Fisica {
     }
 
     /**
-     * Constructor de la clase 1 que deja las gravedades por un valor estandar
+     * Constructor de la clase 1 que deja los pesos por un valor estandar
      * @param velmaxX velocidad del dezplazamiento en X
      * @param velmaxY velocidad de dezplazamiento en Y
      * @param timejump tiempo maximo de salto
@@ -60,8 +60,8 @@ public class Fisica {
      */
     
     public Fisica(double velmaxX, double velmaxY, int timejump, double velmaxXinW, double velmaxYinW, int timeinWater) {
-        this.gravedad = 0.3;
-        this.gravityinW = 0.1;
+        this.peso = 0.3;
+        this.weightinW = 0.1;
         this.velmaxX = velmaxX;
         this.velmaxY = velmaxY;
         this.jumping =false;
@@ -74,12 +74,12 @@ public class Fisica {
     }
     
     /**
-     * Consigue la gravedad que recibe el personaje
-     * @return gravedad
+     * Consigue el peso que recibe el personaje
+     * @return peso
      */
 
     public double getGravedad() {
-        return gravedad;
+        return peso;
     }
 
     /**
@@ -101,16 +101,16 @@ public class Fisica {
     }
     
     /**
-     * Cambia la gravedad de un personaje
-     * @param gravedad nueva gravedad
+     * Cambia el peso de un personaje
+     * @param peso nuevo peso
      */
 
-    public void setGravedad(double gravedad) {
-        this.gravedad = gravedad;
+    public void setGravedad(double peso) {
+        this.peso = peso;
     }
     
     /**
-     * Cambia la velocidad de desplazamiento en X de un pesonaje
+     * Cambia la velocidad de desplazamiento en X de un personaje
      * @param velmaxX nueva velocidad en X 
      */
 
@@ -119,7 +119,7 @@ public class Fisica {
     }
 
     /**
-     * Cambia la velocidad de desplazamiento en Y de un pesonaje
+     * Cambia la velocidad de desplazamiento en Y de un personaje
      * @param velmaxY nueva velocidad en Y
      */
     
@@ -182,12 +182,12 @@ public class Fisica {
     }
 
     /**
-     * Consigue la gravedad en el agua
+     * Consigue el peso en el agua
      * @return getGravityinW
      */
 
     public double getGravityinW() {
-        return gravityinW;
+        return weightinW;
     }
 
     /**
@@ -227,12 +227,12 @@ public class Fisica {
     }
     
     /**
-     * Cambia la gravedad en el agua 
-     * @param gravityinW nueva gravedad de agua
+     * Cambia el peso en el agua 
+     * @param weightinW nuevo peso en el agua
      */
 
-    public void setGravityinW(double gravityinW) {
-        this.gravityinW = gravityinW;
+    public void setGravityinW(double weightinW) {
+        this.weightinW = weightinW;
     }
     
     /**

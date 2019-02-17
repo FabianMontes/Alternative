@@ -34,12 +34,12 @@ public class PerMov {
      * @param large largo del personaje
      * @param high alto del personaje
      * @param damage daño que realiza el personaje
-     * @param gravity Gravedad del personaje
-     * @param gravityinW Gravedad en el agua del personaje
+     * @param weight peso del personaje
+     * @param weightinW peso en el agua del personaje
      */
 
-    public PerMov(double velmaxX,  double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW,double velmaxYinW,int time2, double large, double high, int damage, double gravity, double gravityinW) {
-        this.fisicas = new Fisica(velmaxX, velmaxY, time, velmaxXinW, velmaxYinW, time2, gravity, gravityinW);
+    public PerMov(double velmaxX,  double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW,double velmaxYinW,int time2, double large, double high, int damage, double weight, double weightinW) {
+        this.fisicas = new Fisica(velmaxX, velmaxY, time, velmaxXinW, velmaxYinW, time2, weight, weightinW);
         this.lookingLeft = lookLeft;
         this.live = new Live(live);
         this.cord[0]= Xref;

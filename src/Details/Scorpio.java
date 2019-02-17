@@ -29,7 +29,7 @@ public class Scorpio extends Enemie{
      */
     
     public Scorpio(double Xref, double Yref, double large, double high, double minX, double maxX,double minY, double maxY) throws IOException {
-        super("scorpio", 0.5, 0, 0, true, 10, Xref, Yref, 2, 0, 0, large, high, minX, minY, maxX, maxY,10);
+        super("scorpio", 0.5, 0, 0, true, 10, Xref, Yref, 2, 0, 0, large, high, minX, minY, maxX, maxY,10,0,0);
     }
 
     /**

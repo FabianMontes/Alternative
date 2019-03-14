@@ -120,7 +120,7 @@ public class Menu extends Ventana{
             setAll();
             ArrayList<String> trade =LectoEscritura.detectKey(new File("src/code/PasswordLim.txt"), "codes");
             for (int i = 0; i < trade.size(); i=i+2) {
-                int code1 = Integer.parseInt(trade.get(i));
+                double code1 = Integer.parseInt(trade.get(i));
                 String level=trade.get(i+1);
                 scene.getCodes().put(code1, level);
 

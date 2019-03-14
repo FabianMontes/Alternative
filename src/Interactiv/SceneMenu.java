@@ -15,7 +15,7 @@ import Details.UbiGroup;
  */
 
 public class SceneMenu {
-    private HashMap<Double,String> Codes;
+    private HashMap<Double,String> codes;
     private int[] code;
     private int boton;
     private int BtnCount;
@@ -27,7 +27,7 @@ public class SceneMenu {
      */
     
     public SceneMenu() {
-        this.Codes=new HashMap<>();
+        this.codes=new HashMap<>();
         code= new int[5];
         boton=0;
         BtnCount=0;
@@ -84,10 +84,8 @@ public class SceneMenu {
      */
     
     public HashMap<Double, String> getCodes() {
-        return Codes;
+        return codes;
     }
-    
-    
     
     /**
      * 
@@ -114,8 +112,6 @@ public class SceneMenu {
     public void setBtnCount(int BtnCount) {
         this.BtnCount = BtnCount;
     }
-    
-    
     
     /**
      * cambia los numeros del codigo
@@ -206,7 +202,7 @@ public class SceneMenu {
     
     public boolean canChangeCode(){
         Double a=code[0]*Math.pow(10, 4)+code[1]*Math.pow(10, 3)+code[2]*Math.pow(10, 2)+code[3]*Math.pow(10, 1)+code[4]*Math.pow(10, 0);
-        return this.Codes.get(a)!=null;
+        return this.codes.get(a)!=null;
     }
     
     /**
@@ -216,16 +212,16 @@ public class SceneMenu {
     
     public String changeCode(){
         Double a=code[0]*Math.pow(10, 4)+code[1]*Math.pow(10, 3)+code[2]*Math.pow(10, 2)+code[3]*Math.pow(10, 1)+code[4]*Math.pow(10, 0);
-        return this.Codes.get(a);
+        return this.codes.get(a);
     }
     
     /**
      * Cambia todos los codigos posibles
-     * @param Codes nuevos codigos a existir
+     * @param codes nuevos codigos a existir
      */
     
-    public void setCodes(HashMap<Double, String> Codes) {
-        this.Codes = Codes;
+    public void setCodes(HashMap<Double, String> codes) {
+        this.codes = codes;
     }
 
 }

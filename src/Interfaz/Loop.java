@@ -5,12 +5,11 @@
  */
 package Interfaz;
 import javafx.animation.AnimationTimer;
-import java.io.IOException;
 
 /**
- * La Clase Loop es donde generaremos la interaccion entre el uego y el jugador.
+ * La Clase Loop es donde generaremos la interaccion entre el juego y el jugador.
  * @author Fabián Montes.
- * @version 2.41.7.
+ * @version 5.1.1
  * @since Inicio de los tiempos.
  * 
  */
@@ -24,7 +23,6 @@ public class Loop extends AnimationTimer {
     /**
      * Constructor de la clase
      * @param general lapiz y escena del juego
-     * @throws IOException 
      */
     public Loop(General general) {
         this.general= general;
@@ -60,12 +58,4 @@ public class Loop extends AnimationTimer {
         
     }
     
-    /*
-    
-    private void Botons(){
-                
-                
-            break;    
-        
-    }*/
 }

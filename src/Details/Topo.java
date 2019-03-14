@@ -6,7 +6,6 @@
 package Details;
 
 import Interactiv.Enemie;
-import java.io.IOException;
 
 /**
  * La Clase Topo es un enemigo con forma de topo

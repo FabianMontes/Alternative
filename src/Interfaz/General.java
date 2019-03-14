@@ -6,7 +6,6 @@
 package Interfaz;
 
 import java.util.ArrayList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,13 +15,17 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 /**
- *
- * @author fanat
+ * Clase que guarda el lapiz, la escena  y los botones pulsados
+ * @author Fabian Montes
  */
 public class General {
     private GraphicsContext lapiz;
     private Scene escena;
-    private ArrayList<String> Pulsaciones;
+    private ArrayList<String> pulsaciones;
+    
+    /**
+     * constructor de la clase.
+     */
     
     public General() {
         Pane layout= new Pane();
@@ -30,7 +33,7 @@ public class General {
         layout.getChildren().add(canvas);
         escena= new Scene(layout,1280,650,Color.WHITESMOKE);
         lapiz = canvas.getGraphicsContext2D();
-        Pulsaciones = new ArrayList<>();
+        pulsaciones = new ArrayList<>();
         escena.setOnKeyPressed(
 
             new EventHandler<KeyEvent>()
@@ -45,9 +48,9 @@ public class General {
 
                     String code = e.getCode().toString();
 
-                    if ( !Pulsaciones.contains(code) )
+                    if ( !pulsaciones.contains(code) )
 
-                        Pulsaciones.add( code );
+                        pulsaciones.add( code );
 
                 }
 
@@ -69,7 +72,7 @@ public class General {
 
                     String code = e.getCode().toString();
 
-                    Pulsaciones.remove( code );
+                    pulsaciones.remove( code );
 
                 }
 
@@ -79,13 +82,27 @@ public class General {
         
     }
 
+    /**
+     * 
+     * @return Lapiz de uso en el canvas
+     */
+    
     public GraphicsContext getLapiz() {
         return lapiz;
     }
 
+    /**
+     * 
+     * @return escena 
+     */
+    
     public Scene getEscena() {
         return escena;
     }
+    
+    /**
+     * prepara un cambio de escena con un telon negro.
+     */
     
     public void CambiodeScena(){
         int a=0;
@@ -95,14 +112,15 @@ public class General {
             lapiz.fillRect(0, 0, 1280, 650);
             a++;
         }
-            
     }
+    
+    /**
+     * 
+     * @return botones pulsados actualmente
+     */
 
     public ArrayList<String> getPulsaciones() {
-        return Pulsaciones;
+        return pulsaciones;
     }
-            
     
-    
-        
 }

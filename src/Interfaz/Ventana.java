@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Administra La Ventana dentro del juego
  * @author fanat
  */
 public abstract class Ventana {
@@ -55,36 +55,9 @@ public abstract class Ventana {
     
     /**
      * Consigue una linea determinada segun los botones recibidos
-     * @return linea especifica
+     * @return nueva ventana
      */
     
     public abstract String Btn();
-    
-    /**
-     * Consigue todas las ubicaciones de las partes del menu
-     * @return  todas las ubicaciones de las partes del menu
-     */
-
-    public ArrayList<UbiGroup> getPartes() {
-        return partes;
-    }
-    
-    /**
-     * Consigue todas las imagenes y sus partes usadas en el menu
-     * @return todas las imagenes y partes usadas
-     */
-
-    public HashMap<String, Visual> getImagens() {
-        return imagens;
-    }
-    
-    /**
-     * Consigue el nombre del menu
-     * @return nombre del menu
-     */
-    
-    public String getName() {
-        return name;
-    }
     
 }

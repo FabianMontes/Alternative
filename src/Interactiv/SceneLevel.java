@@ -17,7 +17,7 @@ import javafx.scene.shape.Shape;
 public class SceneLevel {
     private Player gamer;
     private ArrayList<Double> limites;
-    private ArrayList<Enemie> Enemigos;
+    private ArrayList<Enemie> enemigos;
     private HashMap<String,Boolean> botons;
     private double[] sig;
     private String levelSig;
@@ -28,12 +28,11 @@ public class SceneLevel {
     /**
      * Constructor de la clase
      * @param level nivel de la clase
-     * @throws IOException 
      */
     
     public SceneLevel(String level){
         this.limites= new ArrayList<>();
-        this.Enemigos=new ArrayList<>();
+        this.enemigos=new ArrayList<>();
         this.botons = new HashMap<>();
         this.botons.put("Right", false);
         this.botons.put("Left", Boolean.FALSE);
@@ -116,15 +115,39 @@ public class SceneLevel {
     public double getrefYini() {
         return limites.get(5);
     }
+    
+    /**
+     * Consigue la ubicacion inicial del maximo de plano en X
+     * @return inicial del maximo del plano en X
+     */
+    
     public double getrefmaxXini() {
         return limites.get(6);
     }
+    
+    /**
+     * Consigue la ubicacion inicial del maximo de plano en Y
+     * @return inicial del maximo del plano en Y
+     */
+    
     public double getrefmaxYini() {
         return limites.get(7);
     }
+    
+    /**
+     * consigue la ubicacion inicial del jugador en X
+     * @return ubicacion inicial del jugador en X
+     */
+    
     public double getiniPlayerX() {
         return limites.get(8);
     }
+    
+    /**
+     * consigue la ubicacion inicial del jugador en Y
+     * @return ubicacion inicial del jugador en Y
+     */
+    
     public double getiniPlayerY() {
         return limites.get(9);
     }
@@ -191,30 +214,13 @@ public class SceneLevel {
         limites.set(9, val);
     }
 
-    public void setGamer(Player gamer) {
-        this.gamer = gamer;
-    }
-
-    public void setLimites(ArrayList<Double> limites) {
-        this.limites = limites;
-    }
-
     public ArrayList<Enemie> getEnemigos() {
-        return Enemigos;
+        return enemigos;
     }
-
-    public void setEnemigos(ArrayList<Enemie> Enemigos) {
-        this.Enemigos = Enemigos;
-    }
-
+    
     public HashMap<String, Boolean> getBotons() {
         return botons;
     }
-
-    public void setBotons(HashMap<String, Boolean> botons) {
-        this.botons = botons;
-    }
-    
     
     public void changeUbicacion(){     
         gamer.setInvultime(gamer.getInvultime()+1);
@@ -398,17 +404,6 @@ public class SceneLevel {
         return new Rectangle(refX+sig[0],refY-sig[1],sig[2],sig[3]);
     }
 
-    public void setLevelSig(String levelSig) {
-        this.levelSig = levelSig;
-    }
-
-    public void setNext(double x,double y,double l, double a) {
-        this.sig[0]=x;
-        this.sig[1]=y;
-        this.sig[2]=l;
-        this.sig[3]=a;
-    }
-
     public ArrayList<Double> getLimites() {
         return limites;
     }
@@ -440,5 +435,12 @@ public class SceneLevel {
     public void switchBtn(){
         Btn = !Btn;
     }
-    
+
+    public void setEnemigos(ArrayList<Enemie> enemigos) {
+        this.enemigos = enemigos;
+    }
+
+    public void setLevelSig(String levelSig) {
+        this.levelSig = levelSig;
+    }
 }

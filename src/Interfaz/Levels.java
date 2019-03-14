@@ -18,13 +18,18 @@ import javafx.scene.shape.Shape;
 
 
 /**
- *
- * @author fanat
+ * Ventana de niveles
+ * @author Fabian Montes
  */
 public class Levels extends Ventana{
     private SceneLevel scene;
     private int BtnCount;
     
+    /**
+     * Constructor
+     * @param name nombre del nivel
+     * @param general lapiz y escena
+     */
     
     public Levels(String name, General general) {
         super(name, general);
@@ -85,7 +90,7 @@ public class Levels extends Ventana{
      * En este metodo es donde se dibuja todo lo que pertenece al nivel, ademas de generar las colisiones.
      */
     
-    public void Nivel(){
+    private void Nivel(){
         boolean tratra=false;
         boolean up =true;
         boolean move =true;
@@ -97,7 +102,7 @@ public class Levels extends Ventana{
         general.getLapiz().drawImage(imagens.get("fondo").getUbicacion(), imagens.get("fondo").getPart("fondo", 1), imagens.get("fondo").getPart("fondo", 2), imagens.get("fondo").getPart("fondo", 3), imagens.get("fondo").getPart("fondo", 4), 0, 0, 1280, 650);
         for(int i=0;i<partes.size();i++){
             for(int j=0;j<partes.get(i).size();j++){
-                general.getLapiz().drawImage(imagens.get("parts").getUbicacion(), imagens.get("parts").getPart(partes.get(i).getGroup(), 1), imagens.get("parts").getPart(partes.get(i).getGroup(), 2), imagens.get("parts").getPart(partes.get(i).getGroup(), 3), imagens.get("parts").getPart(partes.get(i).getGroup(), 4), scene.getrefX()+partes.get(i).getGroupX(j), scene.getrefY()-partes.get(i).getGroupY(j), getPartes().get(i).getGroupLarge(j), getPartes().get(i).getGroupAncho(j));
+                general.getLapiz().drawImage(imagens.get("parts").getUbicacion(), imagens.get("parts").getPart(partes.get(i).getGroup(), 1), imagens.get("parts").getPart(partes.get(i).getGroup(), 2), imagens.get("parts").getPart(partes.get(i).getGroup(), 3), imagens.get("parts").getPart(partes.get(i).getGroup(), 4), scene.getrefX()+partes.get(i).getGroupX(j), scene.getrefY()-partes.get(i).getGroupY(j), partes.get(i).getGroupLarge(j), partes.get(i).getGroupAncho(j));
                 Shape Obs= new Rectangle(scene.getrefX()+partes.get(i).getGroupX(j),scene.getrefY()-partes.get(i).getGroupY(j),partes.get(i).getGroupLarge(j),partes.get(i).getGroupAncho(j));
 
                 Shape intersection =SVGPath.intersect(scene.getGamer().upUPColid(), Obs);
@@ -261,6 +266,10 @@ public class Levels extends Ventana{
         }
     }
 
+    /**
+     * Interfaz de valores del jugador, o el menu de pausa
+     */
+    
     private void Interfaz(){
         if(!scene.isPaused()){
             general.getLapiz().drawImage(imagens.get("interfaz").getUbicacion(), imagens.get("interfaz").getPart("barra", 1), imagens.get("interfaz").getPart("barra", 2), imagens.get("interfaz").getPart("barra", 3), imagens.get("interfaz").getPart("barra", 4), imagens.get("interfaz").getPart("barra", 1), imagens.get("interfaz").getPart("barra", 2), imagens.get("interfaz").getPart("barra", 3), imagens.get("interfaz").getPart("barra", 4));
@@ -384,15 +393,15 @@ public class Levels extends Ventana{
             return "";
     }
 
+    /**
+     * Cambia el nivel a uno nuevo
+     * @param sceneSig nuevo nivel
+     */
+    
     private void changeLevel(String sceneSig) {
         general.CambiodeScena();
         name=sceneSig;
         setAll();
     }
 
-    
-        
-    
-
-    
 }

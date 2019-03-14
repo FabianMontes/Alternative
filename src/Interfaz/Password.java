@@ -6,15 +6,13 @@
 package Interfaz;
 
 import Details.LectoEscritura;
-import Interactiv.SceneMenu;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javafx.scene.paint.Color;
 
 /**
- *
- * @author fanat
+ * Ventana de Contraseña
+ * @author Fabian Montes
  */
 public class Password extends Ventana{
     private int code;
@@ -23,7 +21,7 @@ public class Password extends Ventana{
     /**
      * Constructor
      * @param name nombre del menu
-     * @param general general.getLapiz() y escena
+     * @param general lapiz y escena
      */
     
     public Password(String name, General general){

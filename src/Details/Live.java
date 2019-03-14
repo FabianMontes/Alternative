@@ -73,7 +73,7 @@ public class Live {
      * @param daño vida rducida
      */
     
-    public void lossLive(int daño){
+    public void loseLive(int daño){
         this.live-=daño;
     }
     

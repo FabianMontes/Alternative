@@ -114,16 +114,7 @@ public class PerMov {
      */
     
     public void loselife(int daño){
-        this.live.lossLive(daño);
-    }
-    
-    /**
-     * Cambia todas las fisicas de los campeones
-     * @param fisicas nuevas fisicas
-     */
-
-    public void setFisicas(Fisica fisicas) {
-        this.fisicas = fisicas;
+        this.live.loseLive(daño);
     }
     
     /**
@@ -136,15 +127,6 @@ public class PerMov {
     }
     
     /**
-     * Cambia la informacion de la vida del personaje
-     * @param live nueva vida
-     */
-
-    public void setLive(Live live) {
-        this.live = live;
-    }
-    
-    /**
      * Desplaza al personaje en el eje X segun su orientacion
      */
 
@@ -154,17 +136,6 @@ public class PerMov {
         }else{
             this.cord[1]+=this.fisicas.getVelmaxX();
         }
-    }
-    
-    /**
-     * hace que el personaje entre en estado de salto
-     */
-    
-    public void saltar(){
-        if(this.fisicas.isGround()){
-            this.fisicas.setJumping(true);
-            this.timeJump=0;   
-        } 
     }
     
     /**
@@ -316,15 +287,6 @@ public class PerMov {
 
     public double getTimeFalling() {
         return timeFalling;
-    }
-    
-    /**
-     * Cambia todas las coordenadas del personaje
-     * @param cord nuevas coordenadas
-     */
-
-    public void setCord(double[] cord) {
-        this.cord = cord;
     }
     
     /**

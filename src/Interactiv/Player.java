@@ -6,7 +6,6 @@
 package Interactiv;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import javafx.scene.image.Image;
 import javafx.scene.shape.*;
@@ -369,26 +368,32 @@ public class Player extends PerMov{
     }
     
     public void setEstats(){
-        if(traje.equals("terra")){
-            fisicas.setGravityinW(0.7);
-            fisicas.setGravedad(0.6);
-            powerBar=50;
-        }else if(traje.equals("aero")){
-            fisicas.setGravityinW(0.1);
-            fisicas.setGravedad(0.05);
-            powerBar=0;
-        }else if(traje.equals("aqua")){
-            fisicas.setGravityinW(0.01);
-            fisicas.setGravedad(0.5);
-            powerBar=166;
-        }else if(traje.equals("pyro")){
-            fisicas.setGravityinW(0.1);
-            fisicas.setGravedad(0.3);
-            powerBar=166;
-        }else{
-            fisicas.setGravityinW(0.1);
-            fisicas.setGravedad(0.3);
-            powerBar=0;
+        switch (traje) {
+            case "terra":
+                fisicas.setGravityinW(0.7);
+                fisicas.setGravedad(0.6);
+                powerBar=50;
+                break;
+            case "aero":
+                fisicas.setGravityinW(0.1);
+                fisicas.setGravedad(0.05);
+                powerBar=0;
+                break;
+            case "aqua":
+                fisicas.setGravityinW(0.01);
+                fisicas.setGravedad(0.5);
+                powerBar=166;
+                break;
+            case "pyro":
+                fisicas.setGravityinW(0.1);
+                fisicas.setGravedad(0.3);
+                powerBar=166;
+                break;
+            default:
+                fisicas.setGravityinW(0.1);
+                fisicas.setGravedad(0.3);
+                powerBar=0;
+                break;
         }
     }
     

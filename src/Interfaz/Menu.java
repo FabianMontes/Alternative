@@ -5,23 +5,19 @@
  */
 package Interfaz;
 
-import Details.LectoEscritura;
 import Interactiv.SceneMenu;
-import java.io.File;
-import java.util.ArrayList;
 
 /**
- *
- * @author fanat
+ * Ventana de Menus
+ * @author Fabian Montes
  */
 public class Menu extends Ventana{
     private SceneMenu scene;
     
-
     /**
      * Constructor
      * @param name nombre del menu
-     * @param general general.getLapiz() y escena
+     * @param general lapiz y escena
      */
     
     public Menu(String name, General general){
@@ -70,6 +66,11 @@ public class Menu extends Ventana{
         }
     }
 
+    /**
+     * realiza acciones para la primera pantalla 
+     * @return nueva ventana
+     */
+    
     private String BtnPan() {
         if(!general.getPulsaciones().isEmpty()&&scene.getBtnCount()>20){
             general.CambiodeScena();
@@ -78,6 +79,11 @@ public class Menu extends Ventana{
         }
         return "";
     }
+    
+    /**
+     * realiza acciones para el menu inicial
+     * @return nueva ventana
+     */
 
     private String BtnMenu() {
         if(general.getPulsaciones().contains("UP")&&scene.getBtnCount()>20){
@@ -96,6 +102,11 @@ public class Menu extends Ventana{
         return "";
     }
 
+    /**
+     * realiza una accion segun el boton escogido
+     * @return nueva ventana
+     */
+    
     private String MenuOptions(int boton) {
         if(boton==0){
             general.CambiodeScena();
@@ -110,6 +121,11 @@ public class Menu extends Ventana{
         
     }
 
+    /**
+     * realiza acciones para el menu de password
+     * @return nueva ventana
+     */
+    
     private String BtnPassword() {
         if(general.getPulsaciones().contains("UP")&&scene.getBtnCount()>20){
             scene.changeTwo("up", partes);
@@ -147,8 +163,5 @@ public class Menu extends Ventana{
         }
         return "";
     }
-
-    
-    
     
 }

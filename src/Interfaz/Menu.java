@@ -5,7 +5,10 @@
  */
 package Interfaz;
 
+import Details.LectoEscritura;
 import Interactiv.SceneMenu;
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Ventana de Menus
@@ -115,6 +118,13 @@ public class Menu extends Ventana{
             general.CambiodeScena();
             name="Password";
             setAll();
+            ArrayList<String> trade =LectoEscritura.detectKey(new File("src/code/PasswordLim.txt"), "codes");
+            for (int i = 0; i < trade.size(); i=i+2) {
+                int code1 = Integer.parseInt(trade.get(i));
+                String level=trade.get(i+1);
+                scene.getCodes().put(code1, level);
+
+            }
             
             return "";
         }

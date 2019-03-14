@@ -4,40 +4,35 @@
  * and open the template in the editor.
  */
 package Interactiv;
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
-import Details.LectoEscritura;
-import Details.UbiGroup;
-import Details.Visual;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 /**
- *
- * @author fanat
+ * La clase Travel genera el nivel dentro del juego
+ * @author Fabian Montes
+ * @version 3.6.5
  */
-public class Travel {
-    private ArrayList<UbiGroup> Partes;
-    private HashMap<String,Visual> Imagens;
-    private Player Gamer;
+public class SceneLevel {
+    private Player gamer;
     private ArrayList<Double> limites;
-    private String Level;
     private ArrayList<Enemie> Enemigos;
     private HashMap<String,Boolean> botons;
-    private double sigX;
-    private double sigY;
-    private double sigL;
-    private double sigA;
+    private double[] sig;
     private String levelSig;
-    private ArrayList<String> desbloquea;
+    private boolean paused;
+    private boolean Btn;
     
-
-    public Travel(String level) throws IOException {
-        this.Level=level;        
-        this.Partes= new ArrayList<>();
+    
+    /**
+     * Constructor de la clase
+     * @param level nivel de la clase
+     * @throws IOException 
+     */
+    
+    public SceneLevel(String level){
         this.limites= new ArrayList<>();
-        this.Imagens=new HashMap<>();
         this.Enemigos=new ArrayList<>();
         this.botons = new HashMap<>();
         this.botons.put("Right", false);
@@ -53,71 +48,71 @@ public class Travel {
         this.botons.put("noControl", Boolean.FALSE);
         this.botons.put("onlyMove", Boolean.FALSE);
         this.botons.put("canMove", true);
-        setAll();
+        sig= new double[4];
+        gamer= new Player(level, 0, 0);
+        paused=false;
+        Btn=false;
     }
     
-    
-    
-    
-    private void setAll() throws IOException{
-        this.Partes.clear();
-        this.Imagens.clear();
-        this.limites.clear();
-        this.Enemigos.clear();
-        Gamer=new Player(Level,0,0);
-        this.Partes=LectoEscritura.UbicarLevel(new File("src/code/"+Level+"Vis.txt"), Partes);
-        this.Imagens=LectoEscritura.PartesEnImagen("src/code/"+Level+"Ub.txt", Imagens);
-        this.Enemigos=LectoEscritura.getEnemie(new File("src/code/"+Level+"lim.txt"), "Enemies");
-        ArrayList<String> limts=LectoEscritura.detectKey(new File("src/code/"+Level+"lim.txt"), "Lim");
-        this.desbloquea=LectoEscritura.detectKey(new File("src/code/"+Level+"lim.txt"), "desbloquea");
-        this.levelSig=desbloquea.get(0);
-        desbloquea.remove(0);
-        sigX=Double.parseDouble(desbloquea.get(0));
-        sigY=Double.parseDouble(desbloquea.get(1));
-        sigL=Double.parseDouble(desbloquea.get(2));
-        sigA=Double.parseDouble(desbloquea.get(3));
-        desbloquea.remove(3);
-        desbloquea.remove(2);
-        desbloquea.remove(1);
-        desbloquea.remove(0);
-        for (int i = 0; i < limts.size(); i++) {
-            this.limites.add(Double.parseDouble(limts.get(i)));
-        }
-        Gamer.setXref(this.getiniPlayerX());
-        Gamer.setYref(this.getiniPlayerY());
-        
-        
-        
-    }
-
-    public ArrayList<UbiGroup> getPartes() {
-        return Partes;
-
-    }
-
-    public HashMap<String, Visual> getImagens() {
-        return Imagens;
-    }
+    /**
+     * Consigue al personaje usado del jugador
+     * @return personaje usado por el jugador
+     */
 
     public Player getGamer() {
-        return Gamer;
+        return gamer;
     }
+    
+    /**
+     * Consigue la ubicacion del centro del plano en X
+     * @return centro del plano en X
+     */
 
     public double getrefX() {
         return limites.get(0);
     }
+    
+    /**
+     * Consigue la ubicacion del centro del plano en Y
+     * @return centro del plano en Y
+     */
+    
     public double getrefY() {
         return limites.get(1);
     }
+    
+    /**
+     * Consigue la ubicacion del limite maximo del plano en X
+     * @return limite maximo del plano en X
+     */
+    
     public double getrefmaxX() {
         return limites.get(2);
     }
+    
+    /**
+     * Consigue la ubicacion del limite maximo del plano en Y
+     * @return limite maximo del plano en Y
+     */
+    
     public double getrefmaxY() {
         return limites.get(3);
     }
+    
+    /**
+     * Consigue la ubicacion inicial del centro de plano en X
+     * @return inicial del centro del plano en X
+     */
+    
     public double getrefXini() {
         return limites.get(4);
     }
+    
+    /**
+     * Consigue la ubicacion inicial del centro de plano en Y
+     * @return inicial del centro del plano en Y
+     */
+    
     public double getrefYini() {
         return limites.get(5);
     }
@@ -195,28 +190,13 @@ public class Travel {
     public void setiniPlayerY(double val) {
         limites.set(9, val);
     }
-    public String getLevel() {
-        return Level;
-    }
 
-    public void setPartes(ArrayList<UbiGroup> Partes) {
-        this.Partes = Partes;
-    }
-
-    public void setImagens(HashMap<String, Visual> Imagens) {
-        this.Imagens = Imagens;
-    }
-
-    public void setGamer(Player Gamer) {
-        this.Gamer = Gamer;
+    public void setGamer(Player gamer) {
+        this.gamer = gamer;
     }
 
     public void setLimites(ArrayList<Double> limites) {
         this.limites = limites;
-    }
-
-    public void setLevel(String Level) {
-        this.Level = Level;
     }
 
     public ArrayList<Enemie> getEnemigos() {
@@ -237,164 +217,173 @@ public class Travel {
     
     
     public void changeUbicacion(){     
-        Gamer.setInvultime(Gamer.getInvultime()+1);
+        gamer.setInvultime(gamer.getInvultime()+1);
         if(this.botons.get("jump")&&this.botons.get("canJump")){
-            Gamer.getFisicas().setJumping(true);
+            gamer.setJumping(true);
         }
         this.botons.replace("canJump", true);
         
-        if((getrefY()==650)&&!(Gamer.getY()<=300)){
-            Gamer.movY();
+        
+        if((getrefY()<=650)&&!(gamer.getY()<=300)){
+            gamer.movY();
         }else{
-            if(Gamer.getTimeJump()>=Gamer.getFisicas().getTimejump()){
-            Gamer.getFisicas().setJumping(false);
+            if(gamer.getTimeJump()>=gamer.getFisicas().getTimejump()){
+            gamer.setJumping(false);
             }
-            if(Gamer.getFisicas().isJumping()){
-                if(!(getrefmaxY()+Gamer.getFisicas().getVelmaxY()>=0)){
-                    difrefmaxY(-Gamer.getFisicas().getVelmaxY()+Gamer.getFisicas().getGravedad()*Gamer.getTimeFalling());
-                    double a=Gamer.getTimeFalling();
-                    double b=Gamer.getTimeJump();
-                    Gamer.setTimeFalling(a+0.5);
-                    Gamer.setTimeJump(b+0.5);
+            if(gamer.getFisicas().isJumping()){
+                if(!(getrefmaxY()+gamer.getFisicas().getVelmaxY()>=0)){
+                    difrefmaxY(+gamer.getFisicas().getVelmaxY()-gamer.getFisicas().getGravedad()*gamer.getTimeFalling());
+                    double a=gamer.getTimeFalling();
+                    double b=gamer.getTimeJump();
+                    gamer.setTimeFalling(a+0.5);
+                    gamer.setTimeJump(b+0.5);
                     setrefY(getrefmaxY()+getrefmaxYini());
-                    
                 }else{
-                    Gamer.movY();
-                    
+                    gamer.movY();
                 }
-            }else if(!Gamer.getFisicas().isGround()){
-                if(getrefY()-Gamer.getFisicas().getGravedad()*Gamer.getTimeFalling()<650){
-                    Gamer.setY(Gamer.getY()-(650-getrefY()-Gamer.getFisicas().getGravedad()*Gamer.getTimeFalling()));
+            }else if(!gamer.getFisicas().isGround()){
+                if(getrefY()-gamer.getFisicas().getGravedad()*gamer.getTimeFalling()<650){
+                    gamer.setY(gamer.getY()-(650-getrefY()-gamer.getFisicas().getGravedad()*gamer.getTimeFalling()));
                     setrefY(650);
-                    double a=Gamer.getTimeFalling();
-                    Gamer.setTimeFalling(a+0.5);
+                    double a=gamer.getTimeFalling();
+                    gamer.setTimeFalling(a+0.5);
                     setrefmaxY(getrefY()-getrefmaxYini());
-                }else if(getrefY()-Gamer.getFisicas().getGravedad()*Gamer.getTimeFalling()>650){
-                    difrefY(-Gamer.getFisicas().getGravedad()*Gamer.getTimeFalling());
-                    double a=Gamer.getTimeFalling();
-                    Gamer.setTimeFalling(a+0.5);
+                }else if(getrefY()-gamer.getFisicas().getGravedad()*gamer.getTimeFalling()>650){
+                    difrefY(-gamer.getFisicas().getGravedad()*gamer.getTimeFalling());
+                    double a=gamer.getTimeFalling();
+                    gamer.setTimeFalling(a+0.5);
                     setrefmaxY(getrefY()-getrefmaxYini());
                 }else{
-                    Gamer.movY();
+                    gamer.movY();
                 }
             }else{
-                Gamer.movY();
+                gamer.movY();
             }
         }
         
         if(this.botons.get("canMove")){
             if(this.botons.get("attack")){
                 if(this.botons.get("Right")){
-                    Gamer.Look("R");   
+                    gamer.Look("R");   
                 }else if(this.botons.get("Left")){
-                    Gamer.Look("L");
+                    gamer.Look("L");
                 }
-                Gamer.setPose("attack");
-            }else if(Gamer.getFisicas().isGround()){
+                gamer.setPose("attack");
+            }else if(gamer.getFisicas().isGround()){
                 if(this.botons.get("Right")){
-                    Gamer.Look("R");
-                    if(this.botons.get("crouch")&&this.Gamer.getTraje().equals("default")){
-                        Gamer.setPose("Mcrouch");
+                    gamer.Look("R");
+                    if(this.botons.get("crouch")&&this.gamer.getTraje().equals("default")){
+                        gamer.setPose("Mcrouch");
                     }else{
-                        Gamer.setPose("walk");
+                        gamer.setPose("walk");
                     }
-                    if(Gamer.getX()>=700&&getrefmaxX()>1280){
-                        if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
+                    if(gamer.getX()>=700&&getrefmaxX()>1280){
+                        if(getrefmaxX()-gamer.getFisicas().getVelmaxX()<1280){
                             setrefmaxX(1280);
                         }else{
-                            difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                            difrefmaxX(-gamer.getFisicas().getVelmaxX());
                         }
                         setrefX(getrefmaxX()-getrefmaxXini());
                     }else{
-                        Gamer.desplazar();
+                        gamer.desplazar();
                     }
                 }else if(this.botons.get("Left")){
-                    if(this.botons.get("crouch")&&this.Gamer.getTraje().equals("default")){
-                        Gamer.setPose("Mcrouch");
+                    if(this.botons.get("crouch")&&this.gamer.getTraje().equals("default")){
+                        gamer.setPose("Mcrouch");
                     }else{
-                        Gamer.setPose("walk");
+                        gamer.setPose("walk");
                     }
-                    Gamer.Look("L");
-                    if(Gamer.getX()<=600&&getrefX()<0){
-                        if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
+                    gamer.Look("L");
+                    if(gamer.getX()<=600&&getrefX()<0){
+                        if(getrefX()+gamer.getFisicas().getVelmaxX()>0){
                             setrefX(0);
                         }else{
-                            difrefX(Gamer.getFisicas().getVelmaxX());
+                            difrefX(gamer.getFisicas().getVelmaxX());
                         }
                         setrefmaxX(getrefX()+getrefmaxXini());
                     }else{
-                        Gamer.desplazar();
+                        gamer.desplazar();
                     }
                 }else{
                     if(botons.get("crouch")){
-                        Gamer.setPose("crouch");
+                        gamer.setPose("crouch");
+                        if(gamer.getTraje().equals("aero")){
+                            gamer.addPowerBar();
+                            gamer.addPowerBar();
+                        }
                     }else{
-                        Gamer.setPose("quiet");
+                        gamer.setPose("quiet");
                     }
 
                 } 
 
-            }else if(Gamer.getFisicas().isJumping()){
+            }else if(gamer.getFisicas().isJumping()){
                 if(this.botons.get("Right")){
-                    Gamer.Look("R");
-                    Gamer.setPose("jump");
-                    if(Gamer.getX()>=700&&getrefmaxX()>1280){
-                        if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
+                    gamer.Look("R");
+                    gamer.setPose("jump");
+                    if(gamer.getX()>=700&&getrefmaxX()>1280){
+                        if(getrefmaxX()-gamer.getFisicas().getVelmaxX()<1280){
                             setrefmaxX(1280);
                         }else{
-                            difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                            difrefmaxX(-gamer.getFisicas().getVelmaxX());
                         }
                         setrefX(getrefmaxX()-getrefmaxXini());
                     }else{
-                        Gamer.desplazar();
+                        gamer.desplazar();
                     }
                 }else if(this.botons.get("Left")){
-                    Gamer.Look("L");
-                    Gamer.setPose("jump");
-                    if(Gamer.getX()<=600&&getrefX()<0){
-                        if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
+                    gamer.Look("L");
+                    gamer.setPose("jump");
+                    if(gamer.getX()<=600&&getrefX()<0){
+                        if(getrefX()+gamer.getFisicas().getVelmaxX()>0){
                             setrefX(0);
                         }else{
-                            difrefX(Gamer.getFisicas().getVelmaxX());
+                            difrefX(gamer.getFisicas().getVelmaxX());
                         }
                         setrefmaxX(getrefX()+getrefmaxXini());
                         }else{
-                            Gamer.desplazar();
+                            gamer.desplazar();
                         }
                     }else{
-                        Gamer.setPose("jump");
+                        gamer.setPose("jump");
                     }
             }else{
                 if(this.botons.get("Right")){
-                    Gamer.Look("R");
-                    Gamer.setPose("fall");
-                    if(Gamer.getX()>=700&&getrefmaxX()>1280){
-                        if(getrefmaxX()-Gamer.getFisicas().getVelmaxX()<1280){
+                    gamer.Look("R");
+                    gamer.setPose("fall");
+                    if(gamer.getX()>=700&&getrefmaxX()>1280){
+                        if(getrefmaxX()-gamer.getFisicas().getVelmaxX()<1280){
                             setrefmaxX(1280);
                         }else{
-                            difrefmaxX(-Gamer.getFisicas().getVelmaxX());
+                            difrefmaxX(-gamer.getFisicas().getVelmaxX());
                         }
                         setrefX(getrefmaxX()-getrefmaxXini());
                     }else{
-                        Gamer.desplazar();
+                        gamer.desplazar();
                     }
                 }else if(this.botons.get("Left")){
-                    Gamer.Look("L");
-                    Gamer.setPose("fall");
-                    if(Gamer.getX()<=600&&getrefX()<0){
-                        if(getrefX()+Gamer.getFisicas().getVelmaxX()>0){
+                    gamer.Look("L");
+                    gamer.setPose("fall");
+                    if(gamer.getX()<=600&&getrefX()<0){
+                        if(getrefX()+gamer.getFisicas().getVelmaxX()>0){
                             setrefX(0);
                         }else{
-                            difrefX(Gamer.getFisicas().getVelmaxX());
+                            difrefX(gamer.getFisicas().getVelmaxX());
                         }
                         difrefmaxX(getrefX()+getrefmaxXini());
                         }else{
-                            Gamer.desplazar();
+                            gamer.desplazar();
                         }
                     }else{
-                        Gamer.setPose("fall");
+                        gamer.setPose("fall");
                     }
             }
+        }
+        if(gamer.getFisicas().isGround()&&gamer.getTraje().equals("aero")){
+            gamer.reducePowerBar(1);
+        }
+        if(gamer.getPose2().equals("attack")&&!gamer.getPose().equals("attack")&&gamer.getTraje().equals("terra")){
+            gamer.setPowerBar(0);
         }
         this.botons.replace("canMove", true);
         
@@ -405,16 +394,8 @@ public class Travel {
         return levelSig;
     }
 
-    public ArrayList<String> getDesbloquea() {
-        return desbloquea;
-    }
-
     public Shape getNext(double refX,double refY) {
-        return new Rectangle(refX+sigX,refY-sigY,sigL,sigA);
-    }
-
-    public void setDesbloquea(ArrayList<String> desbloquea) {
-        this.desbloquea = desbloquea;
+        return new Rectangle(refX+sig[0],refY-sig[1],sig[2],sig[3]);
     }
 
     public void setLevelSig(String levelSig) {
@@ -422,12 +403,42 @@ public class Travel {
     }
 
     public void setNext(double x,double y,double l, double a) {
-        this.sigX=x;
-        this.sigY=y;
-        this.sigL=l;
-        this.sigA=a;
+        this.sig[0]=x;
+        this.sig[1]=y;
+        this.sig[2]=l;
+        this.sig[3]=a;
+    }
+
+    public ArrayList<Double> getLimites() {
+        return limites;
+    }
+
+    public double[] getSig() {
+        return sig;
     }
     
+    public boolean isPaused(){
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public void switchPaused(){
+        paused = !paused;
+    }
     
+    public boolean isBtn(){
+        return Btn;
+    }
+
+    public void setBtn(boolean Btn) {
+        this.Btn = Btn;
+    }
+
+    public void switchBtn(){
+        Btn = !Btn;
+    }
     
 }

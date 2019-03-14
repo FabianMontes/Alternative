@@ -4,13 +4,9 @@
  * and open the template in the editor.
  */
 package Interactiv;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import Details.UbiGroup;
-import Details.Visual;
-import Details.LectoEscritura;
 
 /**
  * La clase Menu se Encarga de Gestionar todo lo que respecta a los menues dentro del juego
@@ -18,55 +14,25 @@ import Details.LectoEscritura;
  * @version 3.0.3
  */
 
-public class Menu {
-    private String name;
-    private ArrayList<UbiGroup> Destellos;
-    private HashMap<String,Visual> Imagens;
+public class SceneMenu {
     private HashMap<Double,String> Codes;
     private int[] code;
     private int boton;
+    private int BtnCount;
+    private int fondoAnim;
+    private int fondoTime;
 
     /**
      * Constructor
-     * @param name Nombre Inicial del menu
-     * @throws IOException 
      */
     
-    public Menu(String name) throws IOException {
-        this.name=name;
-        this.Destellos = new ArrayList<>();
-        this.Imagens = new HashMap<>();
+    public SceneMenu() {
         this.Codes=new HashMap<>();
         code= new int[5];
         boton=0;
-        setAll();
-    }
-    
-    /**
-     * Consigue todas las ubicaciones de las partes del menu
-     * @return  todas las ubicaciones de las partes del menu
-     */
-
-    public ArrayList<UbiGroup> getDestellos() {
-        return Destellos;
-    }
-    
-    /**
-     * Consigue todas las imagenes y sus partes usadas en el menu
-     * @return todas las imagenes y partes usadas
-     */
-
-    public HashMap<String, Visual> getImagens() {
-        return Imagens;
-    }
-    
-    /**
-     * Consigue el nombre del menu
-     * @return nombre del menu
-     */
-    
-    public String getName() {
-        return name;
+        BtnCount=0;
+        fondoAnim=0;
+        fondoTime=0;
     }
     
     /**
@@ -86,6 +52,70 @@ public class Menu {
     public int[] getCode() {
         return code;
     }
+
+    /**
+     * regresa el numero de animacion del fondo
+     * @return 
+     */
+    
+    public int getFondoAnim(){
+        return fondoAnim; 
+    }
+    
+    /**
+     * Cambia la animacion de fondo
+     * @param maxFondoAnim maxima cantidad de animaciones del fondo
+     */
+    
+    public void setFondoAnim(int maxFondoAnim){
+        if(fondoTime>10){
+            if(maxFondoAnim<=fondoAnim){
+                fondoAnim=0;
+            }else{
+                fondoAnim++;
+            }
+        }
+        fondoTime++;
+    }
+    
+    /**
+     * 
+     * @return Consigue los codigos para niveles
+     */
+    
+    public HashMap<Double, String> getCodes() {
+        return Codes;
+    }
+    
+    
+    
+    /**
+     * 
+     * @return tiempo transcurrido sin oprimir botones
+     */
+
+    public int getBtnCount() {
+        return BtnCount;
+    }
+    
+    /**
+     * continua el tiempo transcurrido sin oprimir botones
+     */
+
+    public void setBtnCount() {
+        this.BtnCount++;
+    }
+    
+    /**
+     * cambia el tiempo sin oprimir botones
+     * @param BtnCount nuevo tiempo contado
+     */
+
+    public void setBtnCount(int BtnCount) {
+        this.BtnCount = BtnCount;
+    }
+    
+    
     
     /**
      * cambia los numeros del codigo
@@ -95,51 +125,23 @@ public class Menu {
     public void setCode(int[] code) {
         this.code = code;
     }
-    
+
     /**
-     * Borra y relee las partes del menu, segun el nombre de este
-     * @throws IOException 
+     * cambia el boton a un  nuevo valor
+     * @param boton nuevo valor 
      */
     
-    private void setAll() throws IOException{
-        Destellos.clear();
-        Imagens.clear();
-        Codes.clear();
-        this.Imagens=LectoEscritura.PartesEnImagen("src/code/"+name+"Ub.txt", Imagens);
-        this.Destellos=LectoEscritura.UbicarLevel(new File("src/code/"+name+"Vis.txt"), Destellos);
-    }
-    
-    /**
-     * Cambia el menu a un nombre especifico
-     * @param name nuevo nombre del menu 
-     * @throws IOException 
-     */
-    
-    public void putMenu(String name) throws IOException{
-        this.name=name;
-        boton=0;
-        setAll();  
-        if(this.name.equals("Password")){
-            ArrayList<String> trade =LectoEscritura.detectKey(new File("src/code/"+name+"Lim.txt"), "codes");
-            for (int i = 0; i < trade.size(); i=i+2) {
-                double codes=Integer.parseInt(trade.get(i));
-                String level=trade.get(i+1);
-                this.Codes.put(codes, level);
-            }
-            code[0]=0;
-            code[1]=0;
-            code[2]=0;
-            code[3]=0;
-            code[4]=0;
-        }
+    public void setBoton(int boton) {
+        this.boton = boton;
     }
     
     /**
      * Cambia el boton del menu
-     * @param s valor de cambio(s>0:boton mueve hacia derecham otros: boton mueve izquierda)
+     * @param s valor de cambio(s mayor que 0:boton mueve hacia derecham otros: boton mueve izquierda)
+     * @param partes partes donde se encuentra el boton
      */
     
-    public void changeOne(int s){
+    public void changeOne(int s, ArrayList<UbiGroup> partes){
         if(s>0){
             if(boton==1){
                 boton=0;
@@ -153,15 +155,16 @@ public class Menu {
                 boton--;
             }
         }
-        Destellos.get(0).replaceGroup(0, 406, 442+(100*boton), 62, 56);
+        partes.get(0).replaceGroup(0, 406, 442+(100*boton), 62, 56);
     }
-    
+
     /**
      * Cambia la ubicacion del boton, o del codigo señalado
      * @param s accion a realizar
+     * @param partes partes donde se encuentra el boton
      */
     
-    public void changeTwo(String s){
+    public void changeTwo(String s, ArrayList<UbiGroup> partes){
         switch(s){
             case "up":
                 if(code[boton]==0){
@@ -193,7 +196,7 @@ public class Menu {
             break;
         }
         
-        Destellos.get(0).replaceGroup(0, 154+(212*boton), 350, 126, 126);
+        partes.get(0).replaceGroup(0, 154+(212*boton), 350, 126, 126);
     }
     
     /**

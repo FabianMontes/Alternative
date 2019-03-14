@@ -211,7 +211,7 @@ public class EnemiesCord {
         if(up){
             return y>maxY;
         }else{
-            return y+alto>minY;
+            return y+alto<minY;
         }
     }   
 }

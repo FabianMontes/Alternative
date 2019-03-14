@@ -1,27 +1,9 @@
-enemigos
-image/ObjetosAdimensionales/enemigos.png
-4
-scorpioR
-0
-0
-62
-35
-1
-scorpioL
-364
-0
-62
-35
-1
-topoR
-0
-35
-86
-42
-0
-topoL
-364 
-35
-86
-42
-0
+enemigos, image/ObjetosAdimensionales/enemigos.png, 8,
+scorpioR,0,0,62,35,1,
+scorpioL,364,0,62,35,1,
+topoR,0,35,86,42,0,
+topoL,364 ,35,86,42,0,
+lightL, 12,85,41,71,0,
+lightR, 418,85,41,71,0,
+birdR, 288,77,108,75,0,
+birdL, 75,77,108,75,0,

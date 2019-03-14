@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 /**
  * Esta Clase sirve para representar al personaje manejado por el jugador
- * @author fanat
- * @version 2.5.3
+ * @author Fabian Montes
+ * @version 2.6.1
  */
 public class Player extends PerMov{
     private HashMap<String,Visual> visPlayer;
@@ -33,16 +33,17 @@ public class Player extends PerMov{
     private ArrayList<String> unlockedPowers;
     private int invultime;
     private boolean canGrow;
+    private int lives;
+    private int powerBar;
     
     /**
      * Constructor del jugador
      * @param level Nivel en donde se encuentra
      * @param x ubicacion original en X
      * @param y ubicacion original en Y
-     * @throws IOException 
      */
     
-    public Player(String level, double x, double y) throws IOException {
+    public Player(String level, double x, double y){
         super(4, 7, 10, false, 100, 350, 100,12,20,30,115,126,10);
         visPlayer= new HashMap<>();
         unlockedPowers=LectoEscritura.detectKey(new File("src/code/"+level+"lim.txt"),"powers");
@@ -50,10 +51,12 @@ public class Player extends PerMov{
         look2=look="R";
         pose2=pose="quiet";
         power=traje="default";
-        visPlayer= LectoEscritura.PartesEnImagen("src/code/PlayerImage.txt", visPlayer);
+        visPlayer= LectoEscritura.PartesEnImagen(new File("src/code/PlayerImage.txt"), visPlayer);
         anim=0;
         invultime=20;
         canGrow=true;
+        lives=3;
+        powerBar=0;
     }
     
     /**
@@ -246,17 +249,28 @@ public class Player extends PerMov{
     
     public ArrayList<Shape> damageColid(){
         ArrayList<Shape> damages =new ArrayList<>();
-        damages.clear();
         switch(traje){
             case "terra":
+                damages.clear();
                 if(look.equals("R")){
-                    damages.add(new Rectangle(getX()+27, getY()+5,getLarge()-75, getHigh()-5));
+                    damages.add(new Rectangle(getX()+27, getY()+5,getLarge()-35, getHigh()-5));
                 }else{
-                    damages.add(new Rectangle());
+                    damages.add(new Rectangle(getX()+5, getY()+5,getLarge()-35, getHigh()-5));
                 }
                 
             break;
-            case "default":
+            case "aero":
+                damages.clear();
+                if(look.equals("R")){
+                    damages.add(new Rectangle(getX(), getY()+5,getLarge()-5, getHigh()-5));
+                    damages.add(new Rectangle(getX()-60, getY()+5,getLarge()+100, getHigh()-5));
+                }else{
+                    damages.add(new Rectangle(getX()+5, getY()+5,getLarge()-5, getHigh()-5));
+                    damages.add(new Rectangle(getX()-70, getY()+5,getLarge()+100, getHigh()-5));
+                }
+                
+            break;
+            default:
                 damages.clear();
             break;
         }
@@ -292,6 +306,9 @@ public class Player extends PerMov{
             anim=0;
             pose2=pose;
         }       
+        if(traje.equals("terra")){
+            addPowerBar();
+        }
     }
     
     /**
@@ -339,13 +356,39 @@ public class Player extends PerMov{
             if(power.equals("terra")){
                 if(canGrow){
                     this.traje = this.power;
+                    setEstats();
                     anim=0;
                 }
             }else{
                 this.traje = this.power;
+                setEstats();
                 anim=0;
             }
             
+        }
+    }
+    
+    public void setEstats(){
+        if(traje.equals("terra")){
+            fisicas.setGravityinW(0.7);
+            fisicas.setGravedad(0.6);
+            powerBar=50;
+        }else if(traje.equals("aero")){
+            fisicas.setGravityinW(0.1);
+            fisicas.setGravedad(0.05);
+            powerBar=0;
+        }else if(traje.equals("aqua")){
+            fisicas.setGravityinW(0.01);
+            fisicas.setGravedad(0.5);
+            powerBar=166;
+        }else if(traje.equals("pyro")){
+            fisicas.setGravityinW(0.1);
+            fisicas.setGravedad(0.3);
+            powerBar=166;
+        }else{
+            fisicas.setGravityinW(0.1);
+            fisicas.setGravedad(0.3);
+            powerBar=0;
         }
     }
     
@@ -355,11 +398,12 @@ public class Player extends PerMov{
      */
 
     public void setPose(String pose) {
-        this.pose = pose;
-        if(!pose2.equals(this.pose)){
+        pose2=this.pose;
+        if(!pose2.equals(pose)){
             this.anim=0;
-            pose2=this.pose;
+            this.pose=pose;
         }
+        
     }
     
     /**
@@ -387,70 +431,36 @@ public class Player extends PerMov{
 
     /**
      * Cambia el poder actual por el siguiente desbloqueado
+     * @param a movimiento en la lista de poderes
      */
     
-    public void changePower() {
-        switch(unlockedPowers.size()){
-            case 1:
-                switch(power){
-                    case "default":
-                        power="terra";
-                    break;
-                    case "terra":
-                        power="default";
-                    break;
+    public void changePower(int a) {
+        System.out.println(unlockedPowers.size());
+        for (int i = 0; i < unlockedPowers.size(); i++) {
+            if(unlockedPowers.get(i).equals(power)){
+                if(i==0&&a<0){
+                    power=unlockedPowers.get(unlockedPowers.size()-1);
+                }else if(i+1==unlockedPowers.size()&&a>0){
+                    power=unlockedPowers.get(0);
+                }else{
+                    power=unlockedPowers.get(i+a);
                 }
-            break;
-            case 2:
-                switch(power){
-                    case "default":
-                        power="terra";
-                    break;
-                    case "terra":
-                        power="aero";
-                    break;
-                    case "aero":
-                        power="default";
-                    break;
-                }
-            break;
-            case 3:
-                switch(power){
-                    case "default":
-                        power="terra";
-                    break;
-                    case "terra":
-                        power="aero";
-                    break;
-                    case "aero":
-                        power="aqua";
-                    break;
-                    case "aqua":
-                        power="default";
-                    break;
-                }
-            break;
-            case 4:
-                switch(power){
-                    case "default":
-                        power="terra";
-                    break;
-                    case "terra":
-                        power="aero";
-                    break;
-                    case "aero":
-                        power="aqua";
-                    break;
-                    case "aqua":
-                        power="pyro";
-                    break;
-                    case "pyro":
-                        power="default";
-                    break;
-                }
-            break;
+                break;
+            }
         }
     }
+    
+    public void setJumping(boolean jumping){
+        fisicas.setJumping(jumping);
+        if(jumping){
+            if(traje.equals("aero")){
+                fisicas.setVelmaxY(7+(powerBar/30.0));
+            }
+        }else{
+            fisicas.setVelmaxY(7);
+        }
+    }
+    
     
     /**
      * Hiere al personaje cierta cantidad de daño siempre que no sea invulnerable
@@ -460,8 +470,12 @@ public class Player extends PerMov{
     public void setHurt(int daño){
         if(invultime>=100){
             loselife(daño);
+            if(live.getLive()<0){
+                lives--;
+            }
             invultime=0;
         }
+        
     }
     
     /**
@@ -508,6 +522,45 @@ public class Player extends PerMov{
 
     public void setUnlockedPowers(ArrayList<String> unlockedPowers) {
         this.unlockedPowers = unlockedPowers;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public int getPowerBar() {
+        return powerBar;
+    }
+
+    public void setPowerBar(int powerBar) {
+        if(powerBar>166){
+            powerBar=166;
+        }else{
+            this.powerBar = powerBar;
+        }
+        
+    }
+    
+    public void addPowerBar(){
+        if(powerBar<166){
+            powerBar++;
+        }
+    }
+    
+    public void reducePowerBar(int a){
+        if(powerBar-a>0){
+            powerBar-=a;
+        }else{
+            powerBar=0;
+        }
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
     
 }

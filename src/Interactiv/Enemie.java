@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package Interactiv;
-import java.io.IOException;
 import java.util.HashMap;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -12,6 +11,7 @@ import Details.PerMov;
 import Details.EnemiesCord;
 import Details.Visual;
 import Details.LectoEscritura;
+import java.io.File;
 import javafx.scene.image.Image;
 /**
  * Esta clase define a un enemigo
@@ -20,8 +20,10 @@ import javafx.scene.image.Image;
  */
 public class Enemie extends PerMov{
     protected String type;
+    protected boolean espichable;
     protected EnemiesCord minion; 
     protected HashMap<String,Visual> visEnemies;
+    protected boolean up;
 
     /**
      * Constructor de la clase
@@ -45,14 +47,16 @@ public class Enemie extends PerMov{
      * @param damage daño que realiza el enemigo
      * @param weight peso del enemigo
      * @param weightinW peso en el agua del enemigo
-     * @throws IOException 
+     * @param espichable es espichable
      */
     
-    public Enemie(String type, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high, double minX, double minY, double maxX, double maxY, int damage, double weight, double weightinW) throws IOException {
+    public Enemie(String type, double velmaxX, double velmaxY, int time, boolean lookLeft, int live, double Xref, double Yref, double velmaxXinW, double velmaxYinW, int time2, double large, double high, double minX, double minY, double maxX, double maxY, int damage, double weight, double weightinW, boolean espichable) {
         super(velmaxX, velmaxY, time, lookLeft, live, Xref, Yref, velmaxXinW, velmaxYinW, time2, large, high,damage,weight,weightinW);
         this.type = type;
         this.minion= new EnemiesCord(type, Xref, Yref, minX, maxX, minY, maxY);
-        this.visEnemies= LectoEscritura.PartesEnImagen("src/code/Enemigos.txt", new HashMap<>());
+        this.visEnemies= LectoEscritura.PartesEnImagen(new File("src/code/Enemigos.txt"), new HashMap<>());
+        this.espichable= espichable;
+        up=false;
     }
 
     /**
@@ -171,6 +175,24 @@ public class Enemie extends PerMov{
     }
     
     /**
+     * 
+     * @return es espichable
+     */
+    
+    public boolean isEspichable() {
+        return espichable;
+    }
+
+    /**
+     * cambia la capacidad de ser espichado
+     * @param espichable nuevo espichable
+     */
+    
+    public void setEspichable(boolean espichable) {
+        this.espichable = espichable;
+    }
+    
+    /**
      * desplaza la ubicacion del enemigo segun su orientacion y limites
      */
 
@@ -178,17 +200,43 @@ public class Enemie extends PerMov{
     public void desplazar() {
         if(minion.inLimitX(lookingLeft, getLarge())){
             this.swicthMinion();
+        }
+        if(this.lookingLeft){
+            this.minion.setX(this.cord[1]-=this.fisicas.getVelmaxX());
+        }else{
+            this.minion.setX(this.cord[1]+=this.fisicas.getVelmaxX());
+        }
+        
+    }
+
+    @Override
+    public void movY() {
+        if(minion.inLimitY(up, getHigh())){
+            up= !up;
+        }
+        if(up){
+            minion.setY(this.cord[3]+=fisicas.getVelmaxY());
+        }else{
+            minion.setY(this.cord[3]-=fisicas.getVelmaxY());
+        }
+        
+    }
+    
+    
+    
+    public void retroceder(){
+        if(minion.inLimitX(!lookingLeft, getLarge())){
+            this.swicthMinion();
             if(this.lookingLeft){
-                this.minion.setX(this.cord[1]-=this.fisicas.getVelmaxX());
-                
-            }else{
                 this.minion.setX(this.cord[1]+=this.fisicas.getVelmaxX());
+            }else{
+                this.minion.setX(this.cord[1]-=this.fisicas.getVelmaxX());
             }
         }else{
             if(this.lookingLeft){
-                this.minion.setX(this.cord[1]-=this.fisicas.getVelmaxX());
-            }else{
                 this.minion.setX(this.cord[1]+=this.fisicas.getVelmaxX());
+            }else{
+                this.minion.setX(this.cord[1]-=this.fisicas.getVelmaxX());
             }
         }
     }

@@ -1,9 +1,2 @@
-fondo
-image/Menu/Fondo.png
-1
-fondo
-0
-0
-1280
-650
-1
+fondo, image/Menu/Fondo.png, 1,
+fondo, 0, 0, 1280, 650, 1,

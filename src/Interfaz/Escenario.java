@@ -21,19 +21,17 @@ import javafx.scene.paint.Color;
 public class Escenario extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Pane layout= new Pane();
-        Canvas canvas= new Canvas(1280,650);
-        layout.getChildren().add(canvas);
-        Scene escena= new Scene(layout,1280,650,Color.WHITESMOKE);
-        
-        GraphicsContext lapiz = canvas.getGraphicsContext2D();
-        Loop juego= new Loop(escena, lapiz);
+        General general = new General();
+        //Controles.genControles();
+        System.out.println("hey");
+        Loop juego = new Loop(general);
         juego.start();
         
         
-        primaryStage.setScene(escena);
-        primaryStage.setTitle("Prueba escenario");
+        primaryStage.setScene(general.getEscena());
+        primaryStage.setTitle("Alternative Elements");
         primaryStage.show();
+        
     }
     public static void main(String[] args) {
         Application.launch(args);

@@ -1,0 +1,6 @@
+fondo, image/Menu/Fondo2.png, 1,
+fondo, 0,
+0, 1280, 650, 0,
+parts, image/Menu/star.png, 1,
+stone, 0,
+0, 62, 56, 0,

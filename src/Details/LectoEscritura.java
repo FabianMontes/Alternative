@@ -21,59 +21,64 @@ public class LectoEscritura {
     
     /**
      * Consigue la ubicacion de todos los objetos en un nivel
-     * @param File archivo del nivel a leer
+     * @param file archivo del nivel a leer
      * @param objeto lista donde guardaremos los objetos
-     * @return Lista de objetos con sus ubicaciones en nivel
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @return Lista de objetos con sus ubicaciones en nivel 
      */
     
-    public static ArrayList<UbiGroup> UbicarLevel(File archivo, ArrayList<UbiGroup> objeto) throws FileNotFoundException, IOException{
-        try (Scanner in = new Scanner(new FileReader(archivo))) {
-            while (in.hasNext()) {
-                String a= in.nextLine();
+    public static ArrayList<UbiGroup> UbicarLevel(File file, ArrayList<UbiGroup> objeto){
+        try (Scanner sc = new Scanner(file)) {
+            System.out.println(file.getName());
+            while (sc.hasNext()) {
+                sc.useDelimiter(",");
+                String a= sc.next().trim();
+                System.out.println(a);
                 objeto.add(new UbiGroup(a));
-                int parts = Integer.parseInt(in.nextLine());
+                String part=sc.next().trim();
+                int parts = Integer.parseInt(part);
                 for(int i=0;i<parts;i++){
-                    double x = Double.parseDouble(in.nextLine());
-                    double y = Double.parseDouble(in.nextLine());
-                    double large= Double.parseDouble(in.nextLine());
-                    double ancho= Double.parseDouble(in.nextLine());
+                    double x = Double.parseDouble(sc.next().trim());
+                    double y = Double.parseDouble(sc.next().trim());
+                    double large= Double.parseDouble(sc.next().trim());
+                    double ancho= Double.parseDouble(sc.next().trim());
                     objeto.get(objeto.size()-1).addGroup(x, y,large,ancho);
                 }
             }
+            sc.close();
+        }catch(IOException ex){
+            System.out.println(ex);
         }
+            
         return objeto;
     }
     
     /**
      * Busca en un archivo cierta clave y guarda todas las lineas entre la clave y la clave cerrada (F+clave)
-     * @param Ffichero archivo a investigar
+     * @param file archivo a investigar
      * @param Key Clave para allar los datos
      * @return lista de datos encontrados
-     * @throws FileNotFoundException
-     * @throws IOException 
      */
     
-    public static ArrayList<String> detectKey(File Ffichero,String Key) throws FileNotFoundException, IOException{
+    public static ArrayList<String> detectKey(File file,String Key){
         ArrayList<String> Keys =new ArrayList<>();
         boolean c=false;
-        try {
-            if(Ffichero.exists()){
-                BufferedReader Flee= new BufferedReader(new FileReader(Ffichero));
-                String Slinea;
-                while((Slinea=Flee.readLine())!=null&&!Slinea.equals("F"+Key)) {
-                    if(c)
-                        Keys.add(Slinea);
-                    if(Slinea.equals(Key)){
-                        c=true;
-                    }
-                                  
+        try (Scanner sc = new Scanner(file)) {
+            sc.useDelimiter(",");
+            String Slinea;
+            while(sc.hasNext()){
+                Slinea= sc.next().trim();
+                if(Slinea.equals("F"+Key)){
+                    c=false;
                 }
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
+                if(c){
+                    System.out.println(Slinea);
+                    Keys.add(Slinea);
+                }
+                if(Slinea.equals(Key)){
+                    c=true;
+                }
             }
+            sc.close();
         } catch (IOException ex) {
             /*Captura un posible error y le imprime en pantalla*/ 
              System.out.println(ex.getMessage());
@@ -83,53 +88,59 @@ public class LectoEscritura {
     
     /**
      * Consigue la Ubicacion de los enemigos de un nivel usando la tecnica de las claves
-     * @param Ffichero Archivo a investigar
+     * @param file Archivo a investigar
      * @param Key Nombre clave de los enemigos en el nivel
      * @return lista de enemigos del nivel
-     * @throws FileNotFoundException
-     * @throws IOException 
      */
     
-    public static ArrayList<Enemie> getEnemie(File Ffichero,String Key) throws FileNotFoundException, IOException{
+    public static ArrayList<Enemie> getEnemie(File file,String Key){
         ArrayList<Enemie> minions =new ArrayList<>();
         boolean c=false;
-        try {
-            if(Ffichero.exists()){
-                BufferedReader Flee= new BufferedReader(new FileReader(Ffichero));
-                String Slinea;
-                while((Slinea=Flee.readLine())!=null&&!Slinea.equals("F"+Key)) {
-                    if(c){
-                        String type=Flee.readLine();
-                        int cant=Integer.parseInt(Flee.readLine());
-                        for (int i = 0; i < cant; i++) {
-                            double x= Double.parseDouble(Flee.readLine());
-                            double y= Double.parseDouble(Flee.readLine());
-                            double large= Double.parseDouble(Flee.readLine());
-                            double ancho= Double.parseDouble(Flee.readLine());
-                            double minX= Double.parseDouble(Flee.readLine());
-                            double maxX= Double.parseDouble(Flee.readLine());
-                            double minY= Double.parseDouble(Flee.readLine());
-                            double maxY= Double.parseDouble(Flee.readLine());
-                            switch(type){
-                                case "scorpio":
-                                    minions.add(new Scorpio(x, y, large, ancho, minX,maxX,minY, maxY));
-                                break;
-                                case "topo":
-                                    minions.add(new Topo(x, y, large, ancho, minX,maxX,minY, maxY));
-                                break;
-                            }
-                            
-                        }
-                    }
-                    if(Slinea.equals(Key)){
-                        c=true;
-                    }         
+        try (Scanner sc= new Scanner(file)){
+            sc.useDelimiter(",");
+            String Slinea;
+            while(sc.hasNext()){
+                Slinea= sc.next().trim();
+                if(Slinea.equals("F"+Key)){
+                    break;
                 }
-                Flee.close();
-            }else{
-                System.out.println("Fichero No Existe");
+                System.out.println(Slinea);
+                if(c){
+                    int cant=Integer.parseInt(sc.next().trim());
+                    for (int i = 0; i < cant; i++) {
+                        double x= Double.parseDouble(sc.next().trim());
+                        double y= Double.parseDouble(sc.next().trim());
+                        double large= Double.parseDouble(sc.next().trim());
+                        double ancho= Double.parseDouble(sc.next().trim());
+                        double minX= Double.parseDouble(sc.next().trim());
+                        double maxX= Double.parseDouble(sc.next().trim());
+                        double minY= Double.parseDouble(sc.next().trim());
+                        double maxY= Double.parseDouble(sc.next().trim());
+                        switch(Slinea){
+                            case "scorpio":
+                                System.out.println("escorpion añadida");
+                                minions.add(new Scorpio(x, y, large, ancho, minX,maxX,minY, maxY));
+                            break;
+                            case "topo":
+                                System.out.println("topo añadido");
+                                minions.add(new Topo(x, y, large, ancho, minX,maxX,minY, maxY));
+                            break;
+                            case "light":
+                                minions.add(new Light(x, y, large, ancho, minX,maxX,minY, maxY));
+                            break;
+                            case "bird":
+                                minions.add(new Bird(x, y, large, ancho, minX,maxX,minY, maxY));
+                            break;
+                        }
+
+                    }
+                }
+                if(Slinea.equals(Key)){
+                    c=true;
+                }
             }
-        } catch (Exception ex) {
+            sc.close();
+        } catch (IOException | NumberFormatException ex) {
             /*Captura un posible error y le imprime en pantalla*/ 
              System.out.println(ex.getMessage());
         }
@@ -138,33 +149,34 @@ public class LectoEscritura {
     
     /**
      * Consigue las partes de Una lista de imagenes requeridas
-     * @param archivo Nombre del archivo a utilizar
+     * @param file archivo a utilizar
      * @param objeto Lista donde se guardaran las partes de las imagenes
      * @return nueva lista de partes de imagenes requeridas
-     * @throws FileNotFoundException
-     * @throws IOException 
      */
 
-    public static HashMap<String,Visual> PartesEnImagen(String archivo, HashMap<String,Visual> objeto)throws FileNotFoundException, IOException{
-        Scanner in = new Scanner(new FileReader(archivo));
-        while (in.hasNext()) {
-            String a= in.nextLine();
-            String b= in.nextLine();
-            objeto.put(a,new Visual(b));
-            int parts = Integer.parseInt(in.nextLine());
-            for(int i=0;i<parts;i++){
-                String key = in.nextLine();
-                System.out.println(key);
-                double x = Double.parseDouble(in.nextLine());
-                double y = Double.parseDouble(in.nextLine());
-                double c= Double.parseDouble(in.nextLine());
-                double s= Double.parseDouble(in.nextLine());
-                double N= Double.parseDouble(in.nextLine());
-                objeto.get(a).putPart(key, x, y, c, s, N);
+    public static HashMap<String,Visual> PartesEnImagen(File file, HashMap<String,Visual> objeto){
+        try(Scanner sc = new Scanner(file)){
+            sc.useDelimiter(",");
+            while (sc.hasNext()) {
+                String a= sc.next().trim();
+                String b= sc.next().trim();
+                System.out.println(b);
+                objeto.put(a,new Visual(b));
+                int parts= Integer.parseInt(sc.next().trim());
+                for(int i=0;i<parts;i++){
+                    String key = sc.next().trim();
+                    double x = Double.parseDouble(sc.next().trim());
+                    double y = Double.parseDouble(sc.next().trim());
+                    double c= Double.parseDouble(sc.next().trim());
+                    double s= Double.parseDouble(sc.next().trim());
+                    double N= Double.parseDouble(sc.next().trim());
+                    objeto.get(a).putPart(key, x, y, c, s, N);
+                }
             }
+            sc.close();
+        }catch(IOException ex){
+            System.out.println(ex);
         }
-        in.close();
-        
         return objeto;
     }
 }

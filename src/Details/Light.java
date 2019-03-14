@@ -8,11 +8,11 @@ package Details;
 import Interactiv.Enemie;
 
 /**
- * La Clase Scorpio es un enemigo con forma de scorpion
+ * La Clase Topo es un enemigo con forma de topo
  * @author Fabian Montes
  * @version 1.2.1
  */
-public class Scorpio extends Enemie{
+public class Light extends Enemie{
     
     /**
      * Constructor
@@ -26,17 +26,25 @@ public class Scorpio extends Enemie{
      * @param maxY ubicacion minima para el escorpion en X
      */
     
-    public Scorpio(double Xref, double Yref, double large, double high, double minX, double maxX,double minY, double maxY){
-        super("scorpio", 0.5, 0, 0, true, 10, Xref, Yref, 2, 0, 0, large, high, minX, minY, maxX, maxY,10,0,0, false);
+    public Light(double Xref, double Yref, double large, double high, double minX, double maxX,double minY, double maxY) {
+        super("light", 0, 7, 0, true, 1, Xref, Yref, 2, 0, 0, large, high, minX, minY, maxX, maxY,20,0,0, false);
     }
 
-    /**
-     * Anula todo movimiento en Y
-     */
-    
+    @Override
+    public void hurt(int damage) {
+    }
+
+    @Override
+    public void desplazar() {
+    }
+
     @Override
     public void movY() {
-        
+        if(minion.inLimitY(up, getHigh())){
+            minion.setY(this.cord[3]=minion.getMaxY());
+        }
+         minion.setY(this.cord[3]-=fisicas.getVelmaxY());
+                
     }
     
     

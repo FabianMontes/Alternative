@@ -1,84 +1,24 @@
-fondo
-image/Level0/Fondo.png
-1
-fondo
-0
-0
-1280
-650
-0
-parts
-image/Level0/Objetos.png
-12
-marcoDoor
-0
-0
-99
-199
-0
-closeDoor
-99
-0
-99
-199
-0
-terraDoor
-198
-0
-99
-199
-0
-aeroDoor
-297
-0
-99
-199
-0
-aquaDoor
-396
-0
-99
-199
-0
-pyroDoror
-495
-0
-99
-199
-0
-piso1Colid
-0
-200
-50
-50
-0
-piso2Colid
-50
-200
-50
-50
-0
-piso3Colid
-100
-200
-50
-50
-0
-piso4Colid
-150
-200
-50
-50
-0
-muroY
-0
-250
-50
-300
-0
-muroF
-50
-250
-50
-300
-0
+fondo,image/Level0/Fondo.png,1,
+fondo,0,0,1280,650,0,
+parts,image/Level0/Objetos.png,6,
+piso1Colid,0,200,50,50,0,
+piso2Colid,50,200,50,50,0,
+piso3Colid,100,200,50,50,0,
+piso4Colid,150,200,50,50,0,
+muroY,0,250,50,300,0,
+muroF,50,250,50,300,0,
+interfaz, image/ObjetosAdimensionales/partes1.png, 11,
+barra, 0,0, 398,66,0,
+default0, 0,66,64,64,0,
+default1, 0,131,64,64,0,
+terra0,64,66,64,64,0,
+terra1, 64,131,64,64,0,
+aqua0,128,66,64,64,0,
+aqua1,128,131,64,64,0,
+aero0, 192,66,64,64,0,
+aero1, 192,131,64,64,0,
+pyro0, 256,66,64,64,0,
+pyro1, 256,131,64,64,0,
+pause, image/ObjetosAdimensionales/pause.png ,2,
+continuar, 0,0,320,100,0,
+END,10,115,130,60,0,

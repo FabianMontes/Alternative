@@ -25,11 +25,10 @@ public class Topo extends Enemie{
      * @param maxX ubicacion minima para el escorpion en X
      * @param minY ubicacion minima para el escorpion en X
      * @param maxY ubicacion minima para el escorpion en X
-     * @throws IOException 
      */
     
-    public Topo(double Xref, double Yref, double large, double high, double minX, double maxX,double minY, double maxY) throws IOException {
-        super("topo", 1, 0, 0, true, 10, Xref, Yref, 2, 0, 0, large, high, minX, minY, maxX, maxY,10,0,0);
+    public Topo(double Xref, double Yref, double large, double high, double minX, double maxX,double minY, double maxY)  {
+        super("topo", 1, 0, 0, true, 10, Xref, Yref, 2, 0, 0, large, high, minX, minY, maxX, maxY,10,0,0, true);
     }
 
     /**
